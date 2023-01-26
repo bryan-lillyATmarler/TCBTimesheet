@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
+import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import { TextField } from '@fluentui/react'
 import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import DialogButton from './DialogButton';
 import getSundays from '../../helpers/getSundays';
+import { getDateFormat } from '../../helpers/getDates';
 
 
 const modelProps = {
@@ -21,7 +23,7 @@ secondSundays.forEach((sunday, i) => {
     return (
         sundays.push(
             {
-                key: i,
+                key: new Date(sunday).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" }).toString(),
                 text: new Date(sunday).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" }).toString()
             }
         )
@@ -29,7 +31,15 @@ secondSundays.forEach((sunday, i) => {
 });
 
 const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
-    // const {cycleBegins, setCycleBegins} = useContext(timesheetContext);
+    const { userData, setUserData } = useContext(userContext);
+
+    let dropdownVal = getDateFormat(userData.timesheet.cycleStart);
+
+    const handleStartCycleChange = (e, selectedOption) => {
+        let newObj = {...userData};
+        newObj.timesheet.cycleStart = selectedOption.text;
+        setUserData(newObj);
+    }
 
     return (
         <>
@@ -44,6 +54,8 @@ const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
                     <Dropdown 
                         label='Select Start of Pay Cycle'
                         options={sundays}
+                        defaultSelectedKey={dropdownVal}
+                        onChange={handleStartCycleChange}
                     />
                     <TextField 
                         label='Add Extra Notes'

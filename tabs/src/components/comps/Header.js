@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { userContext } from '../Context';
 import { Image } from '@fluentui/react-northstar';
 import { useBoolean } from '@fluentui/react-hooks';
 import HeaderDialog from './HeaderDialog';
+import { getDateFormat, getTwoWeeks } from '../../helpers/getDates';
 
 
 
 const Header = () => {
+    const { userData } = useContext(userContext);
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
 
     const [openHeader, setOpenHeader] = useState(false);
@@ -17,6 +20,10 @@ const Header = () => {
     const handleOpenDialog = () => {
         toggleHideDialog();
     }
+
+    //Get Date and two weeks ahead of date and format
+    let cycleStartDate = getDateFormat(userData.timesheet.cycleStart);
+    let cycleEndDate = getTwoWeeks(userData.timesheet.cycleStart);
 
     return (
         <>
@@ -38,7 +45,7 @@ const Header = () => {
                             <div className=''>
                                 <div className='flex justify-between'>
                                     <p>Start of pay cycle</p>
-                                    <p>{new Date().toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                                    <p>{cycleStartDate}</p>
                                 </div>
                             </div>
 
@@ -46,7 +53,7 @@ const Header = () => {
                             <div className=''>
                                 <div className='flex justify-between'>
                                     <p>End of pay cycle</p>
-                                    <p>{new Date().toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                                    <p>{cycleEndDate}</p>
                                 </div>
                             </div>
 

@@ -5,3 +5,5 @@ export const TeamsFxContext = createContext({
   themeString: "",
   teamsUserCredential: undefined
 });
+
+export const userContext = createContext();

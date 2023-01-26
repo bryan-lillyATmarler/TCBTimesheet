@@ -1,13 +1,15 @@
-import React, {useState, createContext} from 'react'
-import Header from '../comps/Header'
-import Footer from '../comps/Footer'
-import DayCard from '../comps/DayCard'
-import Submit from '../comps/Submit'
+import React, {useState, useContext} from 'react';
+import Header from '../comps/Header';
+import Footer from '../comps/Footer';
+import DayCard from '../comps/DayCard';
+import Submit from '../comps/Submit';
+import { userContext, TeamsFxContext } from '../Context';
+import { useData } from "@microsoft/teamsfx-react";
 
 const sampleData = {
     user: 'Bryan Lilly',
     timesheet: {
-        cycleStart: 'Wed, Jan 25, 2023',
+        cycleStart: 'Sun, Jan 1, 2023',
         extraNotes: 'Some extra notes for the test',
         days: [
             {
@@ -19,43 +21,51 @@ const sampleData = {
             }
         ]
     } 
-        
 }
 
-const timesheetContext = createContext();
-
 const Timesheet = () => {
-    const [cycleStart, setCycleStart] = useState(sampleData.timesheet.cycleStart);
+    //user data from Teams
+    const { teamsUserCredential } = useContext(TeamsFxContext);
+    const { loading, data, error } = useData(async () => {
+        if (teamsUserCredential) {
+            const userInfo = await teamsUserCredential.getUserInfo();
+            return userInfo;
+        }
+    });
+    // const userName = (loading || error) ? "": data.displayName;
 
-    // const { cycleBegin, setCycleBegin } = useContext(timesheetContext);
-    const contextValue = {cycleStart, setCycleStart}
-  return (
-    <>
-        <timesheetContext.Provider value={contextValue}>
-            <Header />
+    //userData from DB
+    const [userData, setUserData] = useState(sampleData);
+    const [userInfo, setUserInfo] = useState(data);
+
+    const contextValue = { userData, setUserData, userInfo, setUserInfo };
+    return (
+        <>
+            <userContext.Provider value={contextValue}>
+                <Header />
 
 
-            <DayCard sub='Meal Sub' />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
-            <DayCard />
+                <DayCard sub='Meal Sub' />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
+                <DayCard />
 
-            <Footer />
+                <Footer />
 
-            <Submit />
-        </timesheetContext.Provider>
-    </>
-  )
+                <Submit />
+            </userContext.Provider>
+        </>
+    )
 }
 
 export default Timesheet
