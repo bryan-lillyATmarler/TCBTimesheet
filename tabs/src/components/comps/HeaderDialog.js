@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import { TextField } from '@fluentui/react'
 import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption } from '@fluentui/react/lib/Dropdown';
@@ -29,8 +29,7 @@ secondSundays.forEach((sunday, i) => {
 });
 
 const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
-
-
+    // const {cycleBegins, setCycleBegins} = useContext(timesheetContext);
 
     return (
         <>
