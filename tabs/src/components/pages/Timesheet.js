@@ -8,19 +8,18 @@ import { useData } from "@microsoft/teamsfx-react";
 
 const sampleData = {
     user: 'Bryan Lilly',
-    timesheet: {
-        cycleStart: 'Sun, Jan 1, 2023',
-        extraNotes: 'Some extra notes for the test',
-        days: [
-            {
-                date: 'Wed, Jan 25, 2023',
-                startTime: 700,
-                endTime: 1700,
-                sub: 'Full Sub',
-                dailyNotes: 'Notes for test'
-            }
-        ]
-    } 
+    cycleStart: 'Sun, Jan 1, 2023',
+    extraNotes: 'Some extra notes for the test',    
+    days: [
+        {
+            date: 'Wed, Jan 25, 2023',
+            startTime: 700,
+            endTime: 1700,
+            sub: 'Full Sub',
+            dailyNotes: 'Notes for test'
+        }
+    ]
+    
 }
 
 const Timesheet = () => {
