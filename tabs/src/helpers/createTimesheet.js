@@ -1,4 +1,5 @@
-const createDays = (startDate) => {
+export const createDays = (startDate) => {
+    console.log(startDate)
     let days = [];
     for(let i=0; i<14; i++){
         //create date
@@ -6,7 +7,7 @@ const createDays = (startDate) => {
         let dayInc = newDate.getDate() + i;
         newDate.setDate(dayInc);
         const dayToAdd = newDate.toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" });
-        
+
         let day = {
             date: dayToAdd,
             startTime: 700,

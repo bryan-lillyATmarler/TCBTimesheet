@@ -7,6 +7,7 @@ import { getDateFormat, getTwoWeeks } from '../../helpers/getDates';
 import ExtraNotesDialog from './ExtraNotesDialog';
 import NewTimesheetDialog from './NewTimesheetDialog';
 import PreviousTimesheetDialog from './PreviousTimesheetDialog';
+import SubmitTimesheetDialog from './SubmitTimesheetDialog';
 
 
 
@@ -15,6 +16,7 @@ const Header = () => {
     const [extraNotesHideDialog, { toggle: toggleExtraNotesHideDialog }] = useBoolean(true);
     const [newTimesheetHideDialog, { toggle: toggleNewTimesheetHideDialog }] = useBoolean(true);
     const [previousTimesheetHideDialog, { toggle: togglePreviousTimesheetHideDialog }] = useBoolean(true);
+    const [submitTimesheetHideDialog, { toggle: toggleSubmitTimesheetHideDialog }] = useBoolean(true);
 
     const [openHeader, setOpenHeader] = useState(false);
 
@@ -32,6 +34,10 @@ const Header = () => {
 
     const handlePreviousTimesheetDialog = () => {
         togglePreviousTimesheetHideDialog();
+    }
+    
+    const handleSubmitTimesheetDialog = () => {
+        toggleSubmitTimesheetHideDialog();
     }
 
     //Get Date and two weeks ahead of date and format
@@ -103,7 +109,7 @@ const Header = () => {
                         </div>
 
                         <div className='mt-10 flex'>
-                            <div className='m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
+                            <div onClick={() => handleSubmitTimesheetDialog()} className='m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
                                 <button className='font-bold'>Submit Timesheet</button>
                             </div>
 
@@ -131,6 +137,7 @@ const Header = () => {
             <ExtraNotesDialog extraNotesHideDialog={extraNotesHideDialog} toggleExtraNotesHideDialog={toggleExtraNotesHideDialog} />
             <NewTimesheetDialog hideDialog={newTimesheetHideDialog} toggleHideDialog={toggleNewTimesheetHideDialog} />
             <PreviousTimesheetDialog hideDialog={previousTimesheetHideDialog} toggleHideDialog={togglePreviousTimesheetHideDialog} />
+            <SubmitTimesheetDialog hideDialog={submitTimesheetHideDialog} toggleHideDialog={toggleSubmitTimesheetHideDialog} />
         </>
     )
 }

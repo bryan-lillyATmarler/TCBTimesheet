@@ -1,9 +1,10 @@
 import { Dialog, Dropdown, DialogType } from '@fluentui/react'
-import React, {useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import { userContext } from '../Context';
 import DialogButton from './DialogButton'
 import getSundays from '../../helpers/getSundays';
 import { getDateFormat } from '../../helpers/getDates';
+import { createDays } from '../../helpers/createTimesheet';
 
 const modelProps = {
     isBlocking: false,
@@ -28,8 +29,32 @@ secondSundays.forEach((sunday, i) => {
 });
 
 const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
-    const { userData } = useContext(userContext);
+    const { userData, userInfo } = useContext(userContext);
     let dropdownVal = getDateFormat(userData.cycleStart);
+    const [startCycleDate, setStartCycleDate] = useState('')
+
+    const handleStartCycleChange = (e, selectedOption) => {
+        setStartCycleDate(selectedOption.text);
+    }
+
+    const handleCreateTimesheet = () => {
+        let startCycle = new Date(startCycleDate);
+
+        console.log(userInfo)
+
+
+        let days = createDays(startCycle);
+
+        let timesheet = {
+            username: userInfo.userName,
+            startCycle,
+            extraNotes: '',
+            submitted: false,
+            days
+        }
+
+        console.log(timesheet);
+    }
 
     return (
         <>
@@ -45,12 +70,12 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                         label='Select Start of Pay Cycle'
                         options={sundays}
                         defaultSelectedKey={dropdownVal}
-                        // onChange={handleStartCycleChange}
+                        onChange={handleStartCycleChange}
                     />
                 </div>
 
                 <div className='flex justify-around mt-10'>
-                    <DialogButton btnText='Change' classes='bg-blue-100' />
+                    <DialogButton btnText='Create Timesheet' classes='bg-blue-100' onClick={() => handleCreateTimesheet()} />
                     <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                 </div>
             </Dialog>
