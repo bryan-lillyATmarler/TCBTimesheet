@@ -13,3 +13,11 @@ export const getTwoWeeks = (startDate) => {
 
     return dateInTwoWeeks;
 }
+
+export const isWeekend = (date) => {
+    let submittedDate = new Date(date);
+    if(submittedDate.getDay() === 6 || submittedDate.getDay() === 0){
+        return true;
+    }
+    return false;
+}

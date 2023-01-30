@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
+import { Dialog, Dropdown, DialogType } from '@fluentui/react'
+import React, {useContext} from 'react'
 import { userContext } from '../Context';
-import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
-import { TextField } from '@fluentui/react'
-import { Dropdown } from '@fluentui/react/lib/Dropdown';
-import DialogButton from './DialogButton';
+import DialogButton from './DialogButton'
 import getSundays from '../../helpers/getSundays';
 import { getDateFormat } from '../../helpers/getDates';
-
 
 const modelProps = {
     isBlocking: false,
@@ -14,7 +11,7 @@ const modelProps = {
   };
 const dialogContentProps = {
     type: DialogType.largeHeader,
-    title: 'Start of Pay Cycle',
+    title: 'Start a New Timesheet',
 };
 
 let secondSundays = getSundays(2);
@@ -30,16 +27,9 @@ secondSundays.forEach((sunday, i) => {
     )
 });
 
-const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
-    const { userData, setUserData } = useContext(userContext);
-
+const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
+    const { userData } = useContext(userContext);
     let dropdownVal = getDateFormat(userData.cycleStart);
-
-    const handleStartCycleChange = (e, selectedOption) => {
-        let newObj = {...userData};
-        newObj.cycleStart = selectedOption.text;
-        setUserData(newObj);
-    }
 
     return (
         <>
@@ -55,11 +45,7 @@ const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
                         label='Select Start of Pay Cycle'
                         options={sundays}
                         defaultSelectedKey={dropdownVal}
-                        onChange={handleStartCycleChange}
-                    />
-                    <TextField 
-                        label='Add Extra Notes'
-                        multiline
+                        // onChange={handleStartCycleChange}
                     />
                 </div>
 
@@ -72,4 +58,4 @@ const HeaderDialog = ({hideDialog, toggleHideDialog}) => {
     )
 }
 
-export default HeaderDialog
+export default NewTimesheetDialog

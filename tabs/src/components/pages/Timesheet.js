@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import Header from '../comps/Header';
 import Footer from '../comps/Footer';
 import DayCard from '../comps/DayCard';
-import Submit from '../comps/Submit';
+// import Submit from '../comps/Submit';
 import { userContext, TeamsFxContext } from '../Context';
 import { useData } from "@microsoft/teamsfx-react";
 
@@ -25,6 +25,7 @@ const sampleData = {
 const Timesheet = () => {
     //user data from Teams
     const { teamsUserCredential } = useContext(TeamsFxContext);
+        //eslint-disable-next-line
     const { loading, data, error } = useData(async () => {
         if (teamsUserCredential) {
             const userInfo = await teamsUserCredential.getUserInfo();
@@ -61,7 +62,7 @@ const Timesheet = () => {
 
                 <Footer />
 
-                <Submit />
+                {/* <Submit /> */}
             </userContext.Provider>
         </>
     )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useBoolean } from '@fluentui/react-hooks';
 import DayDialog from './DayDialog';
+// import { isWeekend } from '../../helpers/getDates';
 
 const DayCard = ({sub}) => {
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
@@ -8,6 +9,8 @@ const DayCard = ({sub}) => {
     const handleOpenDialog = () => {
         toggleHideDialog();
     }
+
+    // let weekend = isWeekend(sub.date);
 
     return (
         <>
