@@ -13,8 +13,8 @@ const sampleData = {
     days: [
         {
             date: 'Wed, Jan 25, 2023',
-            startTime: 700,
-            endTime: 1700,
+            startTime: new Date(),
+            endTime: new Date(),
             sub: 'Full Sub',
             dailyNotes: 'Notes for test'
         }
@@ -32,20 +32,24 @@ const Timesheet = () => {
             return userInfo;
         }
     });
-    // const userName = (loading || error) ? "": data.displayName;
+    const userName = (loading || error) ? "": data.displayName;
 
     //userData from DB
     const [userData, setUserData] = useState(sampleData);
-    const [userInfo, setUserInfo] = useState(data);
+    // const [userInfo, setUserInfo] = useState(data);
 
-    const contextValue = { userData, setUserData, userInfo, setUserInfo };
+    const contextValue = { userData, setUserData, userName };
     return (
         <>
             <userContext.Provider value={contextValue}>
                 <Header />
 
-
-                <DayCard sub='Meal Sub' />
+                {userData.days.map((day) => {
+                    return (
+                        <DayCard day={day} />
+                    )
+                })}
+                {/* <DayCard sub='Meal Sub' />
                 <DayCard />
                 <DayCard />
                 <DayCard />
@@ -58,7 +62,7 @@ const Timesheet = () => {
                 <DayCard />
                 <DayCard />
                 <DayCard />
-                <DayCard />
+                <DayCard /> */}
 
                 <Footer />
 

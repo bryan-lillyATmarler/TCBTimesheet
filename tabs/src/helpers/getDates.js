@@ -21,3 +21,50 @@ export const isWeekend = (date) => {
     }
     return false;
 }
+
+export const twentyFourHourFormat = (date) => {
+    const time = new Intl.DateTimeFormat('default', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    }).format(date);
+
+    return time;
+}
+
+export const calculateHours = (startTime, endTime) => {
+    let startHour = startTime.getHours();
+    let endHour = endTime.getHours();
+
+    let totalHours = endHour - startHour;
+
+    let regHours;
+    let otHours;
+
+    if(totalHours > 8){
+        regHours = 8;
+        otHours = totalHours - 8;
+    } else {
+        regHours = totalHours
+    }
+
+    return {
+        regHours,
+        otHours
+    }
+}
+
+export const calculateSub = (sub) => {
+    let subAmount;
+    if(sub === 'Full Sub'){
+        subAmount = 200;
+    }
+    else if(sub === 'Meal Sub'){
+        subAmount = 67;
+    } 
+    else {
+        subAmount = 0;
+    }
+
+    return subAmount;
+}

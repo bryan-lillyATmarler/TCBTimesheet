@@ -29,7 +29,7 @@ secondSundays.forEach((sunday, i) => {
 });
 
 const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
-    const { userData, userInfo } = useContext(userContext);
+    const { userData, setUserData, userName } = useContext(userContext);
     let dropdownVal = getDateFormat(userData.cycleStart);
     const [startCycleDate, setStartCycleDate] = useState('')
 
@@ -38,22 +38,20 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     }
 
     const handleCreateTimesheet = () => {
-        let startCycle = new Date(startCycleDate);
+        let cycleStart = new Date(startCycleDate);
 
-        console.log(userInfo)
-
-
-        let days = createDays(startCycle);
+        let days = createDays(cycleStart);
 
         let timesheet = {
-            username: userInfo.userName,
-            startCycle,
+            username: userName,
+            cycleStart,
             extraNotes: '',
             submitted: false,
             days
         }
 
-        console.log(timesheet);
+        console.log(timesheet)
+        setUserData(timesheet);
     }
 
     return (

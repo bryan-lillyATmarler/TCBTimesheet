@@ -12,7 +12,7 @@ const dialogContentProps = {
     title: 'Update Your Day',
 };
 
-const DayDialog = ({hideDialog, toggleHideDialog}) => {
+const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
     const timeRange = {
         start: 0,
@@ -43,23 +43,25 @@ const DayDialog = ({hideDialog, toggleHideDialog}) => {
                         <div className='flex'>
                             <TimePicker
                                 className='mr-1'
-                                allowFreeform
+                                allowFreeform={false}
                                 increments={30}
                                 autoComplete="on"
                                 label={'Start Time'}
                                 useComboBoxAsMenuWidth
                                 timeRange={timeRange}
                                 onChange={handleTimeChange}
+                                // value={day.startTime}
                             />
                             <TimePicker
                                 className='ml-1'
-                                allowFreeform
+                                allowFreeform={false}
                                 increments={30}
                                 autoComplete="on"
                                 label={'End Time'}
                                 useComboBoxAsMenuWidth
                                 timeRange={timeRange}
                                 onChange={handleTimeChange}
+                                // value={day.endTime}
                             />
                         </div>
                         <div className='mt-1'>
