@@ -3,7 +3,7 @@ import { userContext } from '../Context';
 import { Image } from '@fluentui/react-northstar';
 import { useBoolean } from '@fluentui/react-hooks';
 // import HeaderDialog from './HeaderDialog';
-import { getDateFormat, getTwoWeeks } from '../../helpers/getDates';
+import { getDateFormat, getTwoWeeks, calculateTotalHours, calculateTotalSub } from '../../helpers/getDates';
 import ExtraNotesDialog from './ExtraNotesDialog';
 import NewTimesheetDialog from './NewTimesheetDialog';
 import PreviousTimesheetDialog from './PreviousTimesheetDialog';
@@ -12,7 +12,7 @@ import SubmitTimesheetDialog from './SubmitTimesheetDialog';
 
 
 const Header = () => {
-    const { userData } = useContext(userContext);
+    const { userData, userName } = useContext(userContext);
     const [extraNotesHideDialog, { toggle: toggleExtraNotesHideDialog }] = useBoolean(true);
     const [newTimesheetHideDialog, { toggle: toggleNewTimesheetHideDialog }] = useBoolean(true);
     const [previousTimesheetHideDialog, { toggle: togglePreviousTimesheetHideDialog }] = useBoolean(true);
@@ -44,12 +44,16 @@ const Header = () => {
     let cycleStartDate = getDateFormat(userData.cycleStart);
     let cycleEndDate = getTwoWeeks(userData.cycleStart);
 
+    let totalHours = calculateTotalHours(userData.days);
+
+    let totalSub = calculateTotalSub(userData.days);
+
     return (
         <>
             <div className='p-1 border border-black sticky top-0 z-50 bg-white'>
                 {/* NAME */}
                 <div onClick={() => handleOpenHeader()} className='border-b-2 p-1 grid grid-cols-3 cursor-pointer'>
-                    <p className='col-span-1 md:ml-5 md:text-lg'>Bryan Lilly</p>
+                    <p className='col-span-1 md:ml-5 md:text-lg'>{userName}</p>
                     <p className='text-lg col-span-1 text-center md:text-2xl'>Timesheet</p>
                     {/* LOGO */}
                     <div className='col-span-1 text-right'>
@@ -87,7 +91,7 @@ const Header = () => {
                                 <div className='flex justify-between'>
                                     <p>Total Hours</p>
                                     <div>
-                                        <p>80 Reg | 20 OT</p>
+                                        <p>{totalHours.reg} Reg | {totalHours.ot} OT</p>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +100,7 @@ const Header = () => {
                             <div className=''>
                                 <div className='flex justify-between'>
                                     <p>Total Sub Amount</p>
-                                    <p>$2000</p>
+                                    <p>${totalSub}</p>
                                 </div>
                             </div>
                         </div>

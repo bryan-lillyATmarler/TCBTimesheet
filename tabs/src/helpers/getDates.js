@@ -46,6 +46,7 @@ export const calculateHours = (startTime, endTime) => {
         otHours = totalHours - 8;
     } else {
         regHours = totalHours
+        otHours = 0
     }
 
     return {
@@ -67,4 +68,31 @@ export const calculateSub = (sub) => {
     }
 
     return subAmount;
+}
+
+export const calculateTotalHours = (days) => {
+    let totalHours = {
+        reg: 0,
+        ot: 0
+    }
+    let totalRegHours;
+    let totalOTHours;
+
+    days.forEach((day) => {
+        let dayHours = calculateHours(day.startTime, day.endTime);
+        totalHours.reg += dayHours.regHours;
+        totalHours.ot += dayHours.otHours;
+    });
+
+    return totalHours;
+}
+
+export const calculateTotalSub = (days) => {
+    let totalSub = 0;
+
+    days.forEach((day) => {
+        totalSub += calculateSub(day.sub);
+    });
+
+    return totalSub;
 }

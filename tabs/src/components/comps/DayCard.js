@@ -15,7 +15,7 @@ const DayCard = ({day}) => {
 
     //start and end times for hours
     const start = twentyFourHourFormat(day.startTime);
-    const end = twentyFourHourFormat(day.endTime);
+    const end = twentyFourHourFormat(day.endTime);    
 
     //number of hours worked reg and ot
     let hours = calculateHours(day.startTime, day.endTime);
@@ -35,7 +35,12 @@ const DayCard = ({day}) => {
                     {/* HOURS */}
                     <div className='flex justify-between'>
                         <div className=''>
-                            <p>{start} - {end}</p>
+                            {start !== end &&
+                                <p>{start} - {end}</p>
+                            }
+                            {start === end &&
+                                <p>Click to add hours</p>
+                            }           
                         </div>
                         <div className=''>
                             <p>{hours.regHours} Reg | {hours.otHours} OT</p>
