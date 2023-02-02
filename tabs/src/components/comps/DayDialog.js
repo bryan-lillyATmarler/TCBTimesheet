@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
-import { Dropdown, TextField, TimePicker } from '@fluentui/react';
+import { Dropdown, TextField } from '@fluentui/react';
+import { dropdownTimes, twentyFourHourFormat } from '../../helpers/getDates';
 
 const modelProps = {
     isBlocking: false,
@@ -13,16 +15,29 @@ const dialogContentProps = {
 };
 
 const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
+    const { userData, setUserData } = useContext(userContext);
+
     const [subType, setSubType] = useState(day.sub);
     const [dayNotes, setDayNotes] = useState(day.dailyNotes);
+    const [startTime, setStartTime] = useState(twentyFourHourFormat(day.startTime).toString())
+    const [endTime, setEndTime] = useState(twentyFourHourFormat(day.endTime).toString());
+    const [calculatedRegular, setCalculatedRegular] = useState();
+    const [calculatedOT, setCalculatedOT] = useState();
 
-    const timeRange = {
-        start: 0,
-        end: 24,
-    };
+    useEffect(() => {
+        calculateSelectedHours();
+        // eslint-disable-next-line
+    }, [startTime, endTime])
 
-    const handleTimeChange = () => {
+    //options for time selection;
+    let timeDropdown = dropdownTimes();
 
+    const handleStartTimeChange = (e, selectedOption) => {
+        setStartTime(selectedOption.text);
+    }
+
+    const handleEndTimeChange = (e, selectedOption) => {
+        setEndTime(selectedOption.text);
     }
 
     const handleSubChange = (e, selectedOption) => {
@@ -33,8 +48,46 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
         setDayNotes(e.target.value);
     }
 
-    let startHour = new Date();
-    startHour.setHours(12, 0)
+    const calculateSelectedHours = () => {
+        let [startHour, startMinute] = startTime.split(':').map(Number);
+        let [endHour, endMinute] = endTime.split(':').map(Number);
+
+        let start = startHour * 60 + startMinute
+        let end = endHour * 60 + endMinute
+
+        if((end - start) / 60 > 8){
+            setCalculatedRegular(8);
+            setCalculatedOT(((end - start)/60) - 8);
+        } else {
+            setCalculatedRegular((end - start)/60);
+            setCalculatedOT(0);
+        }
+    }
+
+    const handleUpdateDay = () => {
+        let start = new Date(day.date);
+        start.setHours(startTime.split(':')[0], startTime.split(':')[1])
+
+        let end = new Date(day.date);
+        end.setHours(endTime.split(':')[0], endTime.split(':')[1])
+
+        let updatedDay = {
+            date: day.date,
+            startTime: start,
+            endTime: end,
+            sub: subType,
+            dailyNotes: dayNotes
+        }
+
+        let newUserDays = [...userData.days];
+        let index = newUserDays.findIndex((elem) => elem.date === day.date)
+        newUserDays[index] = updatedDay;
+
+        let newUserData = {...userData};
+        newUserData.days = newUserDays;
+        
+        setUserData(newUserData);
+    }
 
     return (
         <>
@@ -53,33 +106,24 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
                     {/* TIME */}
                     <div>
-                        <div className='flex'>
-                            <TimePicker
+                        <div className='grid grid-cols-2'>
+                            <Dropdown 
                                 className='mr-1'
-                                // allowFreeform={false}
-                                // increments={30}
-                                // autoComplete="on"
-                                // label={'Start Time'}
-                                // useComboBoxAsMenuWidth
-                                // timeRange={timeRange}
-                                // onChange={handleTimeChange}
-                                defaultValue={new Date(day.date)}
+                                label='Start Time'
+                                options={timeDropdown}
+                                defaultSelectedKey={startTime}
+                                onChange={handleStartTimeChange}
                             />
-                            <TimePicker
+                            <Dropdown 
                                 className='ml-1'
-                                value={new Date(day.date)}
-                                // allowFreeform={false}
-                                // increments={30}
-                                // autoComplete="on"
-                                // label={'End Time'}
-                                // useComboBoxAsMenuWidth
-                                // timeRange={timeRange}
-                                // onChange={handleTimeChange}
-                                // value={day.endTime}
+                                label='End Time'
+                                options={timeDropdown}
+                                defaultSelectedKey={endTime}
+                                onChange={handleEndTimeChange}
                             />
                         </div>
                         <div className='mt-1'>
-                            <p className='text-center'>8 Reg | 2 OT</p>
+                            <p className='text-center'>{calculatedRegular} Reg | {calculatedOT} OT</p>
                         </div>
                     </div>
                     {/* SUB TYPE */}
@@ -93,7 +137,12 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                             />
                         </div>
                         <div className='mt-1'>
-                            <p className='text-center'>{`${subType === 'Full Sub' ? `${subType} ($200)` : `${subType} ($67)`}`}</p>
+                            {subType === '' &&
+                                <p></p>
+                            }
+                            {subType !== '' &&
+                                <p className='text-center'>{`${subType === 'Full Sub' ? `${subType} ($200)` : `${subType} ($67)`}`}</p>
+                            }                            
                         </div>
                     </div>
 
@@ -109,7 +158,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                 </div>
 
                 <div className='flex justify-around mt-10'>
-                    <DialogButton btnText='Update' classes='bg-blue-100' />
+                    <DialogButton btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
                     <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                 </div>
             </Dialog>

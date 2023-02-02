@@ -2,14 +2,11 @@ import React, { useState, useContext } from 'react'
 import { userContext } from '../Context';
 import { Image } from '@fluentui/react-northstar';
 import { useBoolean } from '@fluentui/react-hooks';
-// import HeaderDialog from './HeaderDialog';
 import { getDateFormat, getTwoWeeks, calculateTotalHours, calculateTotalSub } from '../../helpers/getDates';
 import ExtraNotesDialog from './ExtraNotesDialog';
 import NewTimesheetDialog from './NewTimesheetDialog';
 import PreviousTimesheetDialog from './PreviousTimesheetDialog';
 import SubmitTimesheetDialog from './SubmitTimesheetDialog';
-
-
 
 const Header = () => {
     const { userData, userName } = useContext(userContext);

@@ -15,7 +15,7 @@ export const createDays = (startDate) => {
 
         if(!isWeekend(dayToAdd)){
             // const startTime = new Date(dayToAdd);
-            startTime.setHours(7);
+            startTime.setHours(7, 30);
     
             // const endTime = new Date(dayToAdd);
             endTime.setHours(17);
