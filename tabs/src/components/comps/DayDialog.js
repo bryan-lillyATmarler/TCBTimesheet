@@ -4,6 +4,7 @@ import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
 import { Dropdown, TextField } from '@fluentui/react';
 import { dropdownSubTypes, dropdownTimes, twentyFourHourFormat } from '../../helpers/getDates';
+import { updateTimesheetAPI } from '../../api/timesheetAPI';
 
 const modelProps = {
     isBlocking: false,
@@ -19,10 +20,12 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
     const [subType, setSubType] = useState(day.sub);
     const [dayNotes, setDayNotes] = useState(day.dailyNotes);
-    const [startTime, setStartTime] = useState(twentyFourHourFormat(day.startTime).toString())
-    const [endTime, setEndTime] = useState(twentyFourHourFormat(day.endTime).toString());
+    const [startTime, setStartTime] = useState(day.startTime)
+    const [endTime, setEndTime] = useState(day.endTime);
     const [calculatedRegular, setCalculatedRegular] = useState();
     const [calculatedOT, setCalculatedOT] = useState();
+
+    const [success, setSuccess] = useState('');
 
     useEffect(() => {
         calculateSelectedHours();
@@ -65,12 +68,15 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
         }
     }
 
-    const handleUpdateDay = () => {
+    const handleUpdateDay = async() => {
         let start = new Date(day.date);
         start.setHours(startTime.split(':')[0], startTime.split(':')[1])
 
         let end = new Date(day.date);
         end.setHours(endTime.split(':')[0], endTime.split(':')[1])
+
+        start = twentyFourHourFormat(start);
+        end = twentyFourHourFormat(end);
 
         let updatedDay = {
             date: day.date,
@@ -86,12 +92,22 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
         let newUserData = {...userData};
         newUserData.days = newUserDays;
-        
-        setUserData(newUserData);
 
-        setTimeout(() => {
-            toggleHideDialog();
-        }, 1000);
+        let response = await updateTimesheetAPI(newUserData);
+
+        if(response.success){
+            setSuccess('success');
+            setUserData(response.data);
+            setTimeout(() => {
+                setSuccess('');
+                toggleHideDialog();
+            }, 1000);
+        } else {
+            setSuccess('fail');
+            setTimeout(() => {
+                setSuccess('');
+            }, 2000);
+        }
     }
 
     return (
@@ -163,6 +179,15 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                             value={dayNotes}
                         />
                     </div>
+                </div>
+
+                <div className='h-4 mt-4'>
+                    {success === 'success' &&
+                        <p className='text-center bg-green-200'>Success</p>
+                    }
+                    {success === 'fail' &&
+                        <p className='text-center bg-red-200'>Something Went Wrong - Try Again</p>
+                    }
                 </div>
 
                 <div className='flex justify-around mt-10'>

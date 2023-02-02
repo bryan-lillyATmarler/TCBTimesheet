@@ -45,9 +45,15 @@ export const twentyFourHourFormat = (date) => {
     return time;
 }
 
-export const calculateHours = (startTime, endTime) => {
+export const calculateHours = (startTime, endTime, date) => {
+    let startDate = new Date(date);
+    startDate.setHours(startTime.split(':')[0], startTime.split(':')[1]);
+
+    let endDate = new Date(date);
+    endDate.setHours(endTime.split(':')[0], endTime.split(':')[1]);
+
     //get hours in milliseconds
-    let totalHours = new Date(endTime.getTime() - startTime.getTime());
+    let totalHours = new Date(endDate.getTime() - startDate.getTime());
     //get hours in actual hours 
     totalHours = totalHours / 1000 / 60 / 60;
 
@@ -93,7 +99,7 @@ export const calculateTotalHours = (days) => {
     }
 
     days.forEach((day) => {
-        let dayHours = calculateHours(day.startTime, day.endTime);
+        let dayHours = calculateHours(day.startTime, day.endTime, day.date);
         totalHours.reg += dayHours.regHours;
         totalHours.ot += dayHours.otHours;
     });

@@ -5,6 +5,7 @@ import DialogButton from './DialogButton'
 import getSundays from '../../helpers/getSundays';
 import { getDateFormat } from '../../helpers/getDates';
 import { createDays } from '../../helpers/createTimesheet';
+import { createTimesheetAPI } from "../../api/timesheetAPI";
 
 const modelProps = {
     isBlocking: false,
@@ -32,12 +33,13 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     const { userData, setUserData, userName } = useContext(userContext);
     let dropdownVal = getDateFormat(userData.cycleStart);
     const [startCycleDate, setStartCycleDate] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleStartCycleChange = (e, selectedOption) => {
         setStartCycleDate(selectedOption.text);
     }
 
-    const handleCreateTimesheet = () => {
+    const handleCreateTimesheet = async() => {
         let cycleStart = new Date(startCycleDate);
 
         let days = createDays(cycleStart);
@@ -49,11 +51,22 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
             submitted: false,
             days
         }
-        setUserData(timesheet);
 
-        setTimeout(() => {
-            toggleHideDialog();
-        }, 1000);
+        //send to DB
+        let response = await createTimesheetAPI(timesheet);
+        if(response.success){
+            setSuccess('success');
+            setUserData(response.data);
+            setTimeout(() => {
+                setSuccess('');
+                toggleHideDialog();
+            }, 1000);
+        } else {
+            setSuccess('fail');
+            setTimeout(() => {
+                setSuccess('');
+            }, 2000);
+        }        
     }
 
     return (
@@ -73,7 +86,15 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                         onChange={handleStartCycleChange}
                     />
                 </div>
+                <div className='h-5 mt-2'>
+                    {success === 'success' &&
+                        <p className='text-center bg-green-200'>Success</p>
+                    }
 
+                    {success === 'fail' &&
+                        <p className='text-center bg-red-200 mt-2'>Something Went Wrong - Try Again</p>
+                    }
+                </div>
                 <div className='flex justify-around mt-10'>
                     <DialogButton btnText='Create Timesheet' classes='bg-blue-100' onClick={() => handleCreateTimesheet()} />
                     <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />

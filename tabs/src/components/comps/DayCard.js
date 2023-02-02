@@ -14,11 +14,11 @@ const DayCard = ({day}) => {
     day.weekend = isWeekend(day.date);
 
     //start and end times for hours
-    const start = twentyFourHourFormat(day.startTime);
-    const end = twentyFourHourFormat(day.endTime);    
+    const start = day.startTime;
+    const end = day.endTime;    
 
     //number of hours worked reg and ot
-    let hours = calculateHours(day.startTime, day.endTime);
+    let hours = calculateHours(day.startTime, day.endTime, day.date);
 
     //calculate sub amount
     let subAmount = calculateSub(day.sub);

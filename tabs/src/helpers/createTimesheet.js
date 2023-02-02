@@ -1,4 +1,4 @@
-import { isWeekend } from "./getDates";
+import { isWeekend, twentyFourHourFormat } from "./getDates";
 
 export const createDays = (startDate) => {
     // console.log(startDate)
@@ -10,19 +10,19 @@ export const createDays = (startDate) => {
         newDate.setDate(dayInc);
         const dayToAdd = newDate.toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" });
 
-        const startTime = new Date(dayToAdd);
-        const endTime = new Date(dayToAdd);
+        let startTime = new Date(dayToAdd);
+        let endTime = new Date(dayToAdd);
 
         if(!isWeekend(dayToAdd)){
-            // const startTime = new Date(dayToAdd);
             startTime.setHours(7, 30);
-    
-            // const endTime = new Date(dayToAdd);
             endTime.setHours(17);
         } else {
             startTime.setHours(0);
             endTime.setHours(0);
         }
+
+        startTime = twentyFourHourFormat(startTime);
+        endTime = twentyFourHourFormat(endTime);
 
         let day = {
             date: dayToAdd,

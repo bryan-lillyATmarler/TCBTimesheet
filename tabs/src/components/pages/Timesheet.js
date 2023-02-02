@@ -13,8 +13,8 @@ const sampleData = {
     days: [
         {
             date: 'Wed, Jan 25, 2023',
-            startTime: new Date(),
-            endTime: new Date(),
+            startTime: '07:30',
+            endTime: '17:00',
             sub: 'Full Sub',
             dailyNotes: 'Notes for test'
         }
