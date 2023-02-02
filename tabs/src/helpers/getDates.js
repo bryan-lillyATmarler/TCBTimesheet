@@ -1,3 +1,16 @@
+export const fullSubAmount = () => {
+    //set sull sub amount here
+    return 200;
+}
+
+export const mealSubAmount = () => {
+    return 67;
+}
+
+export const campBonusAmount = () => {
+    return 25
+}
+
 export const getDateFormat = (date) => {
     let newDate = new Date(date);
     newDate = newDate.toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" });
@@ -58,11 +71,14 @@ export const calculateHours = (startTime, endTime) => {
 export const calculateSub = (sub) => {
     let subAmount;
     if(sub === 'Full Sub'){
-        subAmount = 200;
+        subAmount = fullSubAmount();
     }
     else if(sub === 'Meal Sub'){
-        subAmount = 67;
+        subAmount = mealSubAmount();
     } 
+    else if(sub === 'Camp Bonus') {
+        subAmount = campBonusAmount();
+    }
     else {
         subAmount = 0;
     }
@@ -93,6 +109,37 @@ export const calculateTotalSub = (days) => {
     });
 
     return totalSub;
+}
+
+export const calculateMealFullTotalSub = (days) => {
+    let subs = {
+        full: 0,
+        meal: 0,
+        camp: 0,
+        total: calculateTotalSub(days)
+    }
+
+    days.forEach((day) => {
+        if(day.sub === 'Full Sub'){
+            subs.full += fullSubAmount();
+        }
+        if(day.sub === 'Meal Sub'){
+            subs.meal += mealSubAmount();
+        }
+        if(day.sub === 'Camp Bonus'){
+            subs.camp += campBonusAmount();
+        }
+    });
+
+    return subs;
+}
+
+export const dropdownSubTypes = () => {
+    return [
+        {key: 'Full Sub', text: 'Full Sub'},
+        {key: 'Meal Sub', text: 'Meal Sub'},
+        {key: 'Camp Bonus', text: 'Camp Bonus'}
+    ]
 }
 
 export const dropdownTimes = () => {

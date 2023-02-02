@@ -31,7 +31,7 @@ secondSundays.forEach((sunday, i) => {
 const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     const { userData, setUserData, userName } = useContext(userContext);
     let dropdownVal = getDateFormat(userData.cycleStart);
-    const [startCycleDate, setStartCycleDate] = useState('')
+    const [startCycleDate, setStartCycleDate] = useState('');
 
     const handleStartCycleChange = (e, selectedOption) => {
         setStartCycleDate(selectedOption.text);
@@ -49,9 +49,11 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
             submitted: false,
             days
         }
-
-        console.log(timesheet)
         setUserData(timesheet);
+
+        setTimeout(() => {
+            toggleHideDialog();
+        }, 1000);
     }
 
     return (

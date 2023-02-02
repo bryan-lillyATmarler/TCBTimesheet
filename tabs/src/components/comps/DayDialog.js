@@ -3,7 +3,7 @@ import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
 import { Dropdown, TextField } from '@fluentui/react';
-import { dropdownTimes, twentyFourHourFormat } from '../../helpers/getDates';
+import { dropdownSubTypes, dropdownTimes, twentyFourHourFormat } from '../../helpers/getDates';
 
 const modelProps = {
     isBlocking: false,
@@ -31,6 +31,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
     //options for time selection;
     let timeDropdown = dropdownTimes();
+    let subDropdown = dropdownSubTypes();
 
     const handleStartTimeChange = (e, selectedOption) => {
         setStartTime(selectedOption.text);
@@ -87,6 +88,10 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
         newUserData.days = newUserDays;
         
         setUserData(newUserData);
+
+        setTimeout(() => {
+            toggleHideDialog();
+        }, 1000);
     }
 
     return (
@@ -131,7 +136,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                         <div>
                             <Dropdown 
                                 label='Select Sub'
-                                options={[{key: 'Full Sub', text: 'Full Sub'}, {key: 'Meal Sub', text: 'Meal Sub'}]}
+                                options={subDropdown}
                                 defaultSelectedKey={subType}
                                 onChange={handleSubChange}
                             />
@@ -140,8 +145,11 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                             {subType === '' &&
                                 <p></p>
                             }
-                            {subType !== '' &&
+                            {(subType === 'Full Sub' || subType === 'Meal Sub') &&
                                 <p className='text-center'>{`${subType === 'Full Sub' ? `${subType} ($200)` : `${subType} ($67)`}`}</p>
+                            }
+                            {subType === 'Camp Bonus' &&
+                                <p className='text-center'>{`Camp Bonus ($25)`}</p>
                             }                            
                         </div>
                     </div>

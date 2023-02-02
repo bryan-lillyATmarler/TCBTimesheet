@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
-import { getDateFormat } from '../../helpers/getDates';
+import { calculateMealFullTotalSub, calculateTotalHours, getDateFormat, getTwoWeeks } from '../../helpers/getDates';
 
 const modelProps = {
     isBlocking: false,
@@ -14,10 +14,20 @@ const dialogContentProps = {
 };
 
 const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
-    const { userData, setUserData } = useContext(userContext);
+    const { userData } = useContext(userContext);
 
-    let startDate = getDateFormat(new Date);
-    let endDate = getDateFormat(new Date);
+    let startDate = getDateFormat(userData.cycleStart);
+    let endDate = getTwoWeeks(userData.cycleStart);
+
+    let subAmounts = calculateMealFullTotalSub(userData.days);
+
+    let hours = calculateTotalHours(userData.days);
+
+    const handleSubmit = () => {
+        setTimeout(() => {
+            toggleHideDialog();    
+        }, 1000);
+    }
 
     return (
         <>
@@ -38,25 +48,27 @@ const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                     {/* TOTAL HOURS */}
                     <div className='border-b-2 mb-2'>
                         <h2 className='font-bold'>Total Hours:</h2>
-                        <p>80 Regular | 20 Overtime</p>
+                        <p>{hours.reg} Regular | {hours.ot} Overtime</p>
                     </div>
                     
                     {/* TOTAL SUB AMOUNT */}
                     <div className='border-b-2 mb-2'>
                         <h2 className='font-bold'>Total Sub Amount:</h2>
-                        <p>Full - $2000</p>
-                        <p>Meal - $1000</p>
+                        <p>Full - ${subAmounts.full}</p>
+                        <p>Meal - ${subAmounts.meal}</p>
+                        <p>Camp Bonus - ${subAmounts.camp}</p>
+                        <p className='mt-1 border-t-2'>Total - ${subAmounts.total}</p>
                     </div>
 
                     {/* EXTRA NOTES */}
                     <div className='border-b-2 mb-2'>
                         <h2 className='font-bold'>Extra Notes:</h2>
-                        <p>Some of the extra notes that need to be on the form to send to the admin for bookeeping</p>
+                        <p>{userData.extraNotes}</p>
                     </div>
                 </div>
 
                 <div className='flex justify-around mt-10'>
-                    <DialogButton btnText='Submit' classes='bg-blue-100' />
+                    <DialogButton btnText='Submit' classes='bg-blue-100' onClick={() => handleSubmit()}/>
                     <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                 </div>
             </Dialog>

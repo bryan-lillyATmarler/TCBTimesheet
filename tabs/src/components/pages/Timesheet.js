@@ -49,24 +49,8 @@ const Timesheet = () => {
                         <DayCard key={day.date} day={day} />
                     )
                 })}
-                {/* <DayCard sub='Meal Sub' />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard />
-                <DayCard /> */}
 
                 <Footer />
-
-                {/* <Submit /> */}
             </userContext.Provider>
         </>
     )

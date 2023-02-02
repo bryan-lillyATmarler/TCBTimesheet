@@ -65,9 +65,9 @@ const Header = () => {
                 </div>
 
                 {openHeader &&
-                    <div className='px-3 cursor-pointer md:px-0 md:grid md:grid-cols-4' >
+                    <div className='px-3 md:px-0 md:grid md:grid-cols-4' >
                         {/* START OF PAY CYCLE */}
-                        <div className='md:col-span-2 md:px-5' onClick={() => handleOpenExtraNotesDialog()}>
+                        <div className='md:col-span-2 md:px-5 cursor-pointer' onClick={() => handleOpenExtraNotesDialog()}>
                             <div className=''>
                                 <div className='flex justify-between'>
                                     <p>Start of pay cycle</p>
@@ -100,33 +100,36 @@ const Header = () => {
                                     <p>${totalSub}</p>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className='md:col-span-2 md:border-l-2 border border-black mt-3'>
-                            {/* EXTRA NOTES */}
-                            <div className='border-t-2 md:border-none'>
-                                <p className='text-center'>Extra Notes</p>
+                            <div className='md:col-span-2 md:border-l-2 border border-black mt-3'>
+                                {/* EXTRA NOTES */}
+                                <div className='border-t-2 md:border-none'>
+                                    <p className='text-center border-b-2'>Extra Notes</p>
+                                    <p className=''>{userData.extraNotes}</p>
+                                </div>
                             </div>
                         </div>
 
+                        
+
                         <div className='mt-10 flex'>
-                            <div onClick={() => handleSubmitTimesheetDialog()} className='m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
+                            <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
                                 <button className='font-bold'>Submit Timesheet</button>
                             </div>
 
                         </div>
 
                         <div className='mt-4 flex border-t-2 pt-4'>
-                            <div onClick={() => handleOpenNewTimesheetDialog()} className='m-auto border border-black rounded-lg p-3 bg-green-200'>
+                            <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
                                 <button>Start New Timesheet</button>
                             </div>
                         </div>
 
                         <div className='flex justify-between mt-4 border-t-2 pt-4 mb-2'>
-                            <div onClick={() => handlePreviousTimesheetDialog()} className='border border-black rounded-lg p-3 bg-yellow-200'>
+                            <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
                                 <button>View Previous Timesheet</button>
                             </div>
-                            <div className='border border-black rounded-lg p-3 bg-red-200'>
+                            <div className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
                                 <button>Clear Timesheet</button>
                             </div>
                         </div>
@@ -134,7 +137,6 @@ const Header = () => {
                 }
                 
             </div>
-            {/* <HeaderDialog hideDialog={hideDialog} toggleHideDialog={toggleHideDialog} /> */}
             <ExtraNotesDialog extraNotesHideDialog={extraNotesHideDialog} toggleExtraNotesHideDialog={toggleExtraNotesHideDialog} />
             <NewTimesheetDialog hideDialog={newTimesheetHideDialog} toggleHideDialog={toggleNewTimesheetHideDialog} />
             <PreviousTimesheetDialog hideDialog={previousTimesheetHideDialog} toggleHideDialog={togglePreviousTimesheetHideDialog} />
