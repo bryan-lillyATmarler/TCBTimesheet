@@ -3,6 +3,7 @@ import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
 import { calculateMealFullTotalSub, calculateTotalHours, getDateFormat, getTwoWeeks } from '../../helpers/getDates';
+import { submitTimesheetAPI } from '../../api/timesheetAPI';
 
 const modelProps = {
     isBlocking: false,
@@ -23,7 +24,11 @@ const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
 
     let hours = calculateTotalHours(userData.days);
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
+        let response = await submitTimesheetAPI();
+
+        console.log(response);
+
         setTimeout(() => {
             toggleHideDialog();    
         }, 1000);

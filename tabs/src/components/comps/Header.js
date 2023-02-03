@@ -7,6 +7,7 @@ import ExtraNotesDialog from './ExtraNotesDialog';
 import NewTimesheetDialog from './NewTimesheetDialog';
 import PreviousTimesheetDialog from './PreviousTimesheetDialog';
 import SubmitTimesheetDialog from './SubmitTimesheetDialog';
+import ClearTimesheetDialog from './ClearTimesheetDialog';
 
 const Header = () => {
     const { userData, userName } = useContext(userContext);
@@ -14,6 +15,7 @@ const Header = () => {
     const [newTimesheetHideDialog, { toggle: toggleNewTimesheetHideDialog }] = useBoolean(true);
     const [previousTimesheetHideDialog, { toggle: togglePreviousTimesheetHideDialog }] = useBoolean(true);
     const [submitTimesheetHideDialog, { toggle: toggleSubmitTimesheetHideDialog }] = useBoolean(true);
+    const [clearTimesheetHideDialog, { toggle: toggleClearTimesheetHideDialog }] = useBoolean(true);
 
     const [openHeader, setOpenHeader] = useState(false);
 
@@ -35,6 +37,10 @@ const Header = () => {
     
     const handleSubmitTimesheetDialog = () => {
         toggleSubmitTimesheetHideDialog();
+    }
+
+    const handleClearTimesheetDialog = () => {
+        toggleClearTimesheetHideDialog();
     }
 
     //Get Date and two weeks ahead of date and format
@@ -129,7 +135,7 @@ const Header = () => {
                             <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
                                 <button>View Previous Timesheet</button>
                             </div>
-                            <div className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
+                            <div onClick={() => handleClearTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
                                 <button>Clear Timesheet</button>
                             </div>
                         </div>
@@ -141,6 +147,7 @@ const Header = () => {
             <NewTimesheetDialog hideDialog={newTimesheetHideDialog} toggleHideDialog={toggleNewTimesheetHideDialog} />
             <PreviousTimesheetDialog hideDialog={previousTimesheetHideDialog} toggleHideDialog={togglePreviousTimesheetHideDialog} />
             <SubmitTimesheetDialog hideDialog={submitTimesheetHideDialog} toggleHideDialog={toggleSubmitTimesheetHideDialog} />
+            <ClearTimesheetDialog hideDialog={clearTimesheetHideDialog} toggleHideDialog={toggleClearTimesheetHideDialog} />
         </>
     )
 }

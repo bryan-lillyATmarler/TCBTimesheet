@@ -36,8 +36,8 @@ export const createTimesheetAPI = async(body) => {
     return await fetchAPI(route, options);
 }
 
-export const updateTimesheetAPI = async(body) => {
-    let route = `/timesheets/${body._id}`;
+export const updateTimesheetAPI = async(body, id = '*') => {
+    let route = `/timesheets/${id === '*' ? body._id : id}`;
 
     let options = {
         method: 'PUT',
@@ -59,6 +59,16 @@ export const availableTimesheetAPI = async(username) => {
 
     let options = {
         method: 'GET',
+    }
+
+    return await fetchAPI(route, options);
+}
+
+export const submitTimesheetAPI = async() => {
+    let route = `/timesheets/submit`;
+
+    let options = {
+        method: 'GET'
     }
 
     return await fetchAPI(route, options);

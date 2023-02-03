@@ -23,8 +23,12 @@ const PreviousTimesheetDialog = ({ hideDialog, toggleHideDialog }) => {
     const [success, setSuccess] = useState('');
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if(userName !== ''){
+            fetchData();
+        }
+    }, [userName]);
+
+    // fetchData();
 
     //Get the available dates of previous timesheets saved in DB
     async function fetchData() {
