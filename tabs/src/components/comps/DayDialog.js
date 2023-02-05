@@ -24,6 +24,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
     const [endTime, setEndTime] = useState(day.endTime);
     const [calculatedRegular, setCalculatedRegular] = useState();
     const [calculatedOT, setCalculatedOT] = useState();
+    const [isFetching, setIsfetching] = useState(false);
 
     const [success, setSuccess] = useState('');
 
@@ -69,6 +70,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
     }
 
     const handleUpdateDay = async() => {
+        setIsfetching(true);
         let start = new Date(day.date);
         start.setHours(startTime.split(':')[0], startTime.split(':')[1])
 
@@ -98,12 +100,14 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
         if(response.success){
             setSuccess('success');
             setUserData(response.data);
+            setIsfetching(false);
             setTimeout(() => {
                 setSuccess('');
                 toggleHideDialog();
             }, 1000);
         } else {
             setSuccess('fail');
+            setIsfetching(false);
             setTimeout(() => {
                 setSuccess('');
             }, 2000);
@@ -182,6 +186,9 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                 </div>
 
                 <div className='h-4 mt-4'>
+                    {isFetching &&
+                        <p className='text-center bg-yellow-200'>Updating Day</p>
+                    }
                     {success === 'success' &&
                         <p className='text-center bg-green-200'>Success</p>
                     }
@@ -191,8 +198,8 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                 </div>
 
                 <div className='flex justify-around mt-10'>
-                    <DialogButton btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
-                    <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
+                    <DialogButton disable={isFetching} btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
+                    <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                 </div>
             </Dialog>
         </>

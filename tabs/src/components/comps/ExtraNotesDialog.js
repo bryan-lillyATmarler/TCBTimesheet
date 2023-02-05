@@ -17,12 +17,14 @@ const ExtraNotesDialog = ({extraNotesHideDialog, toggleExtraNotesHideDialog}) =>
     const { userData, setUserData } = useContext(userContext);
     const [extraNotes, setExtraNotes] = useState(userData.extraNotes);
     const [success, setSuccess] = useState('');
+    const [isFetching, setIsFetching] = useState(false);
 
     const handleNotesChange = (e) => {
         setExtraNotes(e.target.value);
     }
     
     const handleSubmit = async() => {
+        setIsFetching(true);
         let newUserData = {...userData};
         newUserData.extraNotes = extraNotes;
 
@@ -30,12 +32,14 @@ const ExtraNotesDialog = ({extraNotesHideDialog, toggleExtraNotesHideDialog}) =>
         if(response.success){
             setSuccess('success');
             setUserData(response.data);
+            setIsFetching(false);
             setTimeout(() => {
                 setSuccess('')
                 toggleExtraNotesHideDialog();
             }, 1000);
         } else {
             setSuccess('fail');
+            setIsFetching(false);
             setTimeout(() => {
                 setSuccess('')
             }, 2000);
@@ -68,6 +72,9 @@ const ExtraNotesDialog = ({extraNotesHideDialog, toggleExtraNotesHideDialog}) =>
                 </div>
 
                 <div className='h-4 mt-4'>
+                    {isFetching &&
+                        <p className='text-center bg-yellow-200'>Adding Extra Notes</p>
+                    }
                     {success === 'success' &&
                         <p className='text-center bg-green-200'>Success</p>
                     }
@@ -77,8 +84,8 @@ const ExtraNotesDialog = ({extraNotesHideDialog, toggleExtraNotesHideDialog}) =>
                 </div>
 
                 <div className='flex justify-around mt-6'>
-                    <DialogButton btnText='Update Extra Notes' classes='bg-blue-100' onClick={() => handleSubmit()} />
-                    <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleExtraNotesHideDialog()} />
+                    <DialogButton disable={isFetching} btnText='Update Extra Notes' classes='bg-blue-100' onClick={() => handleSubmit()} />
+                    <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleExtraNotesHideDialog()} />
                 </div>
             </Dialog>
         </>

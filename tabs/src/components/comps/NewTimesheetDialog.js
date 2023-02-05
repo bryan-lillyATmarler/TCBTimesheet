@@ -34,12 +34,14 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     let dropdownVal = getDateFormat(userData.cycleStart);
     const [startCycleDate, setStartCycleDate] = useState('');
     const [success, setSuccess] = useState('');
+    const [isFetching, setIsFetching] = useState(false);
 
     const handleStartCycleChange = (e, selectedOption) => {
         setStartCycleDate(selectedOption.text);
     }
 
     const handleCreateTimesheet = async() => {
+        setIsFetching(true);
         let cycleStart = new Date(startCycleDate);
 
         let days = createDays(cycleStart);
@@ -57,12 +59,14 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         if(response.success){
             setSuccess('success');
             setUserData(response.data);
+            setIsFetching(false);
             setTimeout(() => {
                 setSuccess('');
                 toggleHideDialog();
             }, 1000);
         } else {
             setSuccess('fail');
+            setIsFetching(false);
             setTimeout(() => {
                 setSuccess('');
             }, 2000);
@@ -87,6 +91,9 @@ const NewTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                     />
                 </div>
                 <div className='h-5 mt-2'>
+                    {isFetching &&
+                        <p className='text-center bg-yellow-200'>Creating New Timesheet</p>
+                    }
                     {success === 'success' &&
                         <p className='text-center bg-green-200'>Success</p>
                     }

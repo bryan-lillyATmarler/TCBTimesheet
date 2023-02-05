@@ -17,8 +17,10 @@ const dialogContentProps = {
 const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     const { userData, setUserData } = useContext(userContext);
     const [success, setSuccess] = useState('');
+    const [isFetching, setIsfetching] = useState(false);
 
     const handleClearTimesheetSubmit = async() => {
+        setIsfetching(true);
         let body = {
             days: createDays(userData.cycleStart)
         }
@@ -28,12 +30,14 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         if(response.success) {
             setSuccess('success');
             setUserData(response.data);
+            setIsfetching(false);
             setTimeout(() => {
                 setSuccess('');
                 toggleHideDialog();
             }, 1000);
         } else {
             setSuccess('fail');
+            setIsfetching(false);
             setTimeout(() => {
                 setSuccess('');
             }, 2000);
@@ -49,9 +53,13 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     >
         <div>
             <p className='font-bold text-center'>Are you sure you want to clear your timesheet info?</p>
+            <p className='mt-4 text-center'>This will reset all times to 07:00 - 17:00, remove subs and remove any any notes that you have added</p>
         </div>
 
         <div className='mt-4 h-4'>
+            {isFetching &&
+                <p className='bg-yellow-200 text-center'>Clearing Timesheet</p>
+            }
             {success === 'success' &&
                 <p className='bg-green-200 text-center'>Current Timesheet Cleared</p>
             }
@@ -61,8 +69,8 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         </div>
 
         <div className='flex justify-around mt-10'>
-            <DialogButton btnText='Clear Timesheet' classes='bg-red-200' onClick={() => handleClearTimesheetSubmit()}/>
-            <DialogButton btnText='Cancel' classes='bg-yellow-200' onClick={() => toggleHideDialog()}/>
+            <DialogButton disable={isFetching} btnText='Clear Timesheet' classes='bg-red-200' onClick={() => handleClearTimesheetSubmit()}/>
+            <DialogButton disable={isFetching} btnText='Cancel' classes='bg-yellow-200' onClick={() => toggleHideDialog()}/>
         </div>
     </Dialog>
   )
