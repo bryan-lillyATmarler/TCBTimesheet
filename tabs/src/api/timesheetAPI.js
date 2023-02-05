@@ -64,8 +64,8 @@ export const availableTimesheetAPI = async(username) => {
     return await fetchAPI(route, options);
 }
 
-export const submitTimesheetAPI = async() => {
-    let route = `/timesheets/submit`;
+export const submitTimesheetAPI = async(id) => {
+    let route = `/timesheets/submit/${id}`;
 
     let options = {
         method: 'GET'

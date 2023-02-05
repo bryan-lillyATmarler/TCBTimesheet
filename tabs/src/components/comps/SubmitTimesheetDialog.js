@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
@@ -16,6 +16,8 @@ const dialogContentProps = {
 
 const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     const { userData } = useContext(userContext);
+    const [isFetching, setIsFetching] = useState(false);
+    const [success, setSuccess] = useState('');
 
     let startDate = getDateFormat(userData.cycleStart);
     let endDate = getTwoWeeks(userData.cycleStart);
@@ -25,13 +27,23 @@ const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
     let hours = calculateTotalHours(userData.days);
 
     const handleSubmit = async() => {
-        let response = await submitTimesheetAPI();
+        setIsFetching(true);
+        let response = await submitTimesheetAPI(userData._id);
 
-        console.log(response);
-
-        setTimeout(() => {
-            toggleHideDialog();    
-        }, 1000);
+        if(response.success){
+            setSuccess('success');
+            setIsFetching(false);
+            setTimeout(() => {
+                setSuccess('')
+                toggleHideDialog();    
+            }, 1000);
+        } else {
+            setSuccess('fail');
+            setIsFetching(false);
+            setTimeout(() => {
+                setSuccess('');
+            }, 2000);
+        }
     }
 
     return (
@@ -72,9 +84,21 @@ const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                     </div>
                 </div>
 
+                <div className='mt-4 h-4'>
+                    {isFetching &&
+                        <p className='bg-yellow-200 text-center'>Submitting Timesheet - Please Wait</p>
+                    }
+                    {success === 'success' &&
+                        <p className='bg-green-200 text-center'>Timesheet Submitted</p>
+                    }
+                    {success === 'fail' &&
+                        <p className='bg-red-200 text-center'>Something Went Wrong - Try Again</p>
+                    }
+                </div>
+
                 <div className='flex justify-around mt-10'>
-                    <DialogButton btnText='Submit' classes='bg-blue-100' onClick={() => handleSubmit()}/>
-                    <DialogButton btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
+                    <DialogButton disable={isFetching} btnText='Submit' classes='bg-blue-100' onClick={() => handleSubmit()}/>
+                    <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                 </div>
             </Dialog>
         </>
