@@ -1,5 +1,5 @@
 import { Dialog, TextField, DialogType } from '@fluentui/react'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { updateTimesheetAPI } from '../../api/timesheetAPI';
 import { userContext } from '../Context';
 import DialogButton from './DialogButton'
@@ -18,6 +18,10 @@ const ExtraNotesDialog = ({extraNotesHideDialog, toggleExtraNotesHideDialog}) =>
     const [extraNotes, setExtraNotes] = useState(userData.extraNotes);
     const [success, setSuccess] = useState('');
     const [isFetching, setIsFetching] = useState(false);
+
+    useEffect(() => {
+        setExtraNotes(userData.extraNotes);
+    }, [userData]);
 
     const handleNotesChange = (e) => {
         setExtraNotes(e.target.value);

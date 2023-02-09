@@ -15,7 +15,7 @@ const dialogContentProps = {
 };
 
 const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
-    const { userData } = useContext(userContext);
+    const { userData, setUserData } = useContext(userContext);
     const [isFetching, setIsFetching] = useState(false);
     const [success, setSuccess] = useState('');
 
@@ -33,6 +33,7 @@ const SubmitTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         if(response.success){
             setSuccess('success');
             setIsFetching(false);
+            setUserData(response.data);
             setTimeout(() => {
                 setSuccess('')
                 toggleHideDialog();    

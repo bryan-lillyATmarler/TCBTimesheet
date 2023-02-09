@@ -1,7 +1,6 @@
 import { isWeekend, twentyFourHourFormat } from "./getDates";
 
 export const createDays = (startDate) => {
-    // console.log(startDate)
     let days = [];
     for(let i=0; i<14; i++){
         //create date

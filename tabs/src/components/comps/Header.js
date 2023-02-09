@@ -8,6 +8,7 @@ import NewTimesheetDialog from './NewTimesheetDialog';
 import PreviousTimesheetDialog from './PreviousTimesheetDialog';
 import SubmitTimesheetDialog from './SubmitTimesheetDialog';
 import ClearTimesheetDialog from './ClearTimesheetDialog';
+import SubmittedDialog from './SubmittedDialog';
 
 const Header = () => {
     const { userData, userName } = useContext(userContext);
@@ -16,6 +17,7 @@ const Header = () => {
     const [previousTimesheetHideDialog, { toggle: togglePreviousTimesheetHideDialog }] = useBoolean(true);
     const [submitTimesheetHideDialog, { toggle: toggleSubmitTimesheetHideDialog }] = useBoolean(true);
     const [clearTimesheetHideDialog, { toggle: toggleClearTimesheetHideDialog }] = useBoolean(true);
+    const [alreadySubmittedHideDialog, { toggle: toggleAlreadySubmittedHideDialog }] = useBoolean(true);
 
     const [openHeader, setOpenHeader] = useState(false);
 
@@ -36,7 +38,11 @@ const Header = () => {
     }
     
     const handleSubmitTimesheetDialog = () => {
-        toggleSubmitTimesheetHideDialog();
+        if(userData.submitted){
+            toggleAlreadySubmittedHideDialog();
+        } else {
+            toggleSubmitTimesheetHideDialog();    
+        }        
     }
 
     const handleClearTimesheetDialog = () => {
@@ -63,10 +69,17 @@ const Header = () => {
                         <Image width={30} src='./TCB Logo Transparent.png' alt='TCB Logo' />
                     </div>     
                     {!openHeader &&
-                        <div className='col-span-3 border-t-2'>
-                            <p className='text-center'>{cycleStartDate} - {cycleEndDate}</p>
-                        </div>
-                        
+                        <>
+                            <div className='col-span-3 border-t-2'>
+                                <p className='text-center'>{cycleStartDate} - {cycleEndDate}</p>
+                            </div>
+                            {userData.submitted &&
+                                <div className='col-span-3'>
+                                    <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
+                                </div>
+
+                            }
+                        </>  
                     }
                 </div>
 
@@ -110,10 +123,18 @@ const Header = () => {
                             <div className='md:col-span-2 md:border-l-2 border border-black mt-3'>
                                 {/* EXTRA NOTES */}
                                 <div className='border-t-2 md:border-none'>
-                                    <p className='text-center border-b-2'>Extra Notes</p>
-                                    <p className=''>{userData.extraNotes}</p>
+                                    <p className='text-center border-b-2'>Extra Notes {`(Click here to add/edit Extra Notes)`}</p>
+                                    <p className='p-2'>{userData.extraNotes}</p>
                                 </div>
                             </div>
+
+                            {userData.submitted &&
+                                <div>
+                                    <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
+                                </div>
+
+                            }
+
                         </div>
 
                         
@@ -148,6 +169,7 @@ const Header = () => {
             <PreviousTimesheetDialog hideDialog={previousTimesheetHideDialog} toggleHideDialog={togglePreviousTimesheetHideDialog} />
             <SubmitTimesheetDialog hideDialog={submitTimesheetHideDialog} toggleHideDialog={toggleSubmitTimesheetHideDialog} />
             <ClearTimesheetDialog hideDialog={clearTimesheetHideDialog} toggleHideDialog={toggleClearTimesheetHideDialog} />
+            <SubmittedDialog hideDialog={alreadySubmittedHideDialog} toggleHideDialog={toggleAlreadySubmittedHideDialog} />
         </>
     )
 }

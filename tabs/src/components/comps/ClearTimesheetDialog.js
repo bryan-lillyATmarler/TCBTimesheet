@@ -51,27 +51,46 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         dialogContentProps={dialogContentProps}
         modalProps={modelProps}
     >
-        <div>
-            <p className='font-bold text-center'>Are you sure you want to clear your timesheet info?</p>
-            <p className='mt-4 text-center'>This will reset all times to 07:00 - 17:00, remove subs and remove any any notes that you have added</p>
-        </div>
+          {!userData.submitted &&
+              <>
+                  <div>
+                      <p className='font-bold text-center'>Are you sure you want to clear your timesheet info?</p>
+                      <p className='mt-4 text-center'>This will reset all times to 07:00 - 17:00, remove subs and remove any any notes that you have added</p>
+                  </div>
 
-        <div className='mt-4 h-4'>
-            {isFetching &&
-                <p className='bg-yellow-200 text-center'>Clearing Timesheet</p>
-            }
-            {success === 'success' &&
-                <p className='bg-green-200 text-center'>Current Timesheet Cleared</p>
-            }
-            {success === 'fail' &&
-                <p className='bg-red-200 text-center'>Something Went Wrong - Try Again</p>
-            }  
-        </div>
+                  <div className='mt-4 h-4'>
+                      {isFetching &&
+                          <p className='bg-yellow-200 text-center'>Clearing Timesheet</p>
+                      }
+                      {success === 'success' &&
+                          <p className='bg-green-200 text-center'>Current Timesheet Cleared</p>
+                      }
+                      {success === 'fail' &&
+                          <p className='bg-red-200 text-center'>Something Went Wrong - Try Again</p>
+                      }
+                  </div>
 
-        <div className='flex justify-around mt-10'>
-            <DialogButton disable={isFetching} btnText='Clear Timesheet' classes='bg-red-200' onClick={() => handleClearTimesheetSubmit()}/>
-            <DialogButton disable={isFetching} btnText='Cancel' classes='bg-yellow-200' onClick={() => toggleHideDialog()}/>
-        </div>
+                  <div className='flex justify-around mt-10'>
+                      <DialogButton disable={isFetching} btnText='Clear Timesheet' classes='bg-red-200' onClick={() => handleClearTimesheetSubmit()} />
+                      <DialogButton disable={isFetching} btnText='Cancel' classes='bg-yellow-200' onClick={() => toggleHideDialog()} />
+                  </div>
+              </>
+          }
+          {userData.submitted &&
+              <>
+                  <div>
+                      <p className='text-lg font-bold text-center mb-4'>Cannot Clear</p>
+                      <p className='text-center'>Timesheet has already been submitted</p>
+                  </div>
+
+                  <div className='flex mt-5'>
+                      <div onClick={() => toggleHideDialog()} className='m-auto border border-black py-3 px-4 rounded-md cursor-pointer bg-blue-100'>
+                          <button>Okay</button>
+                      </div>
+                  </div>
+              </>
+          }
+        
     </Dialog>
   )
 }
