@@ -84,39 +84,41 @@ const Header = () => {
                 </div>
 
                 {openHeader &&
-                    <div className='px-3 md:px-0 md:grid md:grid-cols-4' >
+                    <div >
                         {/* START OF PAY CYCLE */}
-                        <div className='md:col-span-2 md:px-5 cursor-pointer' onClick={() => handleOpenExtraNotesDialog()}>
-                            <div className=''>
-                                <div className='flex justify-between'>
-                                    <p>Start of pay cycle</p>
-                                    <p>{cycleStartDate}</p>
-                                </div>
-                            </div>
-
-                            {/* END OF PAY CYCLE */}
-                            <div className=''>
-                                <div className='flex justify-between'>
-                                    <p>End of pay cycle</p>
-                                    <p>{cycleEndDate}</p>
-                                </div>
-                            </div>
-
-                            {/* TOTAL HOURS */}
-                            <div className=''>
-                                <div className='flex justify-between'>
-                                    <p>Total Hours</p>
-                                    <div>
-                                        <p>{totalHours.reg} Reg | {totalHours.ot} OT</p>
+                        <div className='px-3 cursor-pointer md:px-0 md:grid md:grid-cols-4' onClick={() => handleOpenExtraNotesDialog()}>
+                            <div className='md:col-span-2 md:px-5'>
+                                <div className=''>
+                                    <div className='flex justify-between'>
+                                        <p>Start of pay cycle</p>
+                                        <p>{cycleStartDate}</p>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* TOTAL SUBS */}
-                            <div className=''>
-                                <div className='flex justify-between'>
-                                    <p>Total Sub Amount</p>
-                                    <p>${totalSub}</p>
+                                {/* END OF PAY CYCLE */}
+                                <div className=''>
+                                    <div className='flex justify-between'>
+                                        <p>End of pay cycle</p>
+                                        <p>{cycleEndDate}</p>
+                                    </div>
+                                </div>
+
+                                {/* TOTAL HOURS */}
+                                <div className=''>
+                                    <div className='flex justify-between'>
+                                        <p>Total Hours</p>
+                                        <div>
+                                            <p>{totalHours.reg} Reg | {totalHours.ot} OT</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* TOTAL SUBS */}
+                                <div className=''>
+                                    <div className='flex justify-between'>
+                                        <p>Total Sub Amount</p>
+                                        <p>${totalSub}</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -127,37 +129,38 @@ const Header = () => {
                                     <p className='p-2'>{userData.extraNotes}</p>
                                 </div>
                             </div>
-
-                            {userData.submitted &&
-                                <div>
-                                    <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
-                                </div>
-
-                            }
-
                         </div>
+                        {userData.submitted &&
+                            <div className='md:col-span-4'>
+                                <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
+                            </div>
+
+                        }
 
                         
 
-                        <div className='mt-10 flex'>
-                            <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
-                                <button className='font-bold'>Submit Timesheet</button>
+                        
+                        <div className='md:col-span-4 md:grid md:grid-cols-4 md:pt-4 md:pb-4'>
+                            <div className='mt-5 flex md:col-span-1 md:m-0'>
+                                <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
+                                    <button className='font-bold'>Submit Timesheet</button>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div className='mt-4 flex border-t-2 pt-4'>
-                            <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
-                                <button>Start New Timesheet</button>
+                            <div className='mt-4 flex border-t-2 pt-4 md:col-span-1 md:m-0 md:border-none md:p-0'>
+                                <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
+                                    <button>Start New Timesheet</button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className='flex justify-between mt-4 border-t-2 pt-4 mb-2'>
-                            <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
-                                <button>View Previous Timesheet</button>
-                            </div>
-                            <div onClick={() => handleClearTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
-                                <button>Clear Timesheet</button>
+                            <div className='flex justify-around mt-4 border-t-2 pt-4 mb-2 md:m-0 md:col-span-2 md:border-none md:p-0 md:justify-around'>
+                                <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
+                                    <button>View Previous Timesheet</button>
+                                </div>
+                                <div onClick={() => handleClearTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
+                                    <button>Clear Timesheet</button>
+                                </div>
                             </div>
                         </div>
                     </div>
