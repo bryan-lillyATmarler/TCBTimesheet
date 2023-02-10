@@ -9,6 +9,7 @@ import PreviousTimesheetDialog from './PreviousTimesheetDialog';
 import SubmitTimesheetDialog from './SubmitTimesheetDialog';
 import ClearTimesheetDialog from './ClearTimesheetDialog';
 import SubmittedDialog from './SubmittedDialog';
+import { BiMenu } from "react-icons/bi";
 
 const Header = () => {
     const { userData, userName } = useContext(userContext);
@@ -62,11 +63,17 @@ const Header = () => {
             <div className='p-1 border border-black sticky top-0 z-50 bg-white'>
                 {/* NAME */}
                 <div onClick={() => handleOpenHeader()} className='border-b-2 p-1 grid grid-cols-3 cursor-pointer'>
-                    <p className='col-span-1 md:ml-5 md:text-lg'>{userName}</p>
-                    <p className='text-lg col-span-1 text-center md:text-2xl'>Timesheet</p>
+                    <div className='col-span-1 flex justify-start'>
+                        <BiMenu size={35} className='my-auto' />
+                    </div>
+                    <div className=' col-span-1'>
+                        <p className='text-center md:text-lg'>{userName}</p>
+                        <p className='text-lg text-center md:text-2xl'>Timesheet</p>
+                        {/* <p className='text-center text-xs'>{`(Click)`}</p> */}
+                    </div>
                     {/* LOGO */}
-                    <div className='col-span-1 text-right'>
-                        <Image width={30} src='./TCB Logo Transparent.png' alt='TCB Logo' />
+                    <div className='col-span-1 text-right flex justify-end'>
+                        <Image width={40} src='./TCB Logo Transparent.png' alt='TCB Logo' className='my-auto' />
                     </div>     
                     {!openHeader &&
                         <>
@@ -141,6 +148,7 @@ const Header = () => {
 
                         
                         <div className='md:col-span-4 md:grid md:grid-cols-4 md:pt-4 md:pb-4'>
+                            
                             <div className='mt-5 flex md:col-span-1 md:m-0'>
                                 <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
                                     <button className='font-bold'>Submit Timesheet</button>
@@ -148,13 +156,13 @@ const Header = () => {
 
                             </div>
 
-                            <div className='mt-4 flex border-t-2 pt-4 md:col-span-1 md:m-0 md:border-none md:p-0'>
+                            <div className='mt-1 flex border-t-2 pt-1 md:col-span-1 md:m-0 md:border-none md:p-0'>
                                 <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
                                     <button>Start New Timesheet</button>
                                 </div>
                             </div>
-
-                            <div className='flex justify-around mt-4 border-t-2 pt-4 mb-2 md:m-0 md:col-span-2 md:border-none md:p-0 md:justify-around'>
+                            
+                            <div className='flex justify-around mt-1 border-t-2 pt-1 mb-1 md:m-0 md:col-span-2 md:border-none md:p-0 md:justify-around'>
                                 <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
                                     <button>View Previous Timesheet</button>
                                 </div>

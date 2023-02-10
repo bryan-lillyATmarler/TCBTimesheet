@@ -9,5 +9,8 @@
     "devDependencies": {
         "@microsoft/teamsfx-cli": "1.*"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "react-icons": "^4.7.1"
+    }
 }

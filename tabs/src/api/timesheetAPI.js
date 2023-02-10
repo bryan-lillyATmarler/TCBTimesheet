@@ -1,5 +1,6 @@
 const fetchAPI = async(route, options) => {
     const url = 'https://tcbapi.azurewebsites.net/api/v1';
+    // const url = 'http://localhost:5000/api/v1';
 
     let response;
 
@@ -66,6 +67,16 @@ export const availableTimesheetAPI = async(username) => {
 
 export const submitTimesheetAPI = async(id) => {
     let route = `/timesheets/submit/${id}`;
+
+    let options = {
+        method: 'GET'
+    }
+
+    return await fetchAPI(route, options);
+}
+
+export const getLatestTimesheetAPI = async(username) => {
+    let route = `/timesheets/latest/${username}`;
 
     let options = {
         method: 'GET'
