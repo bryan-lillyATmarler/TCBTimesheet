@@ -4,11 +4,11 @@
     "manifest": {
         "appName": {
             "short": "Timesheet",
-            "full": "Full name for Timesheet"
+            "full": "TCB Timesheet"
         },
         "description": {
-            "short": "Short description of Timesheet",
-            "full": "Full description of Timesheet"
+            "short": "Timesheet App for TCB",
+            "full": "Timesheet App for TCB Employees"
         },
         "icons": {
             "color": "resources/color.png",
