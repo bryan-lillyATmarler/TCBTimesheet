@@ -1,7 +1,7 @@
 import React from 'react'
 import { useBoolean } from '@fluentui/react-hooks';
 import DayDialog from './DayDialog';
-import { twentyFourHourFormat, isWeekend, calculateHours, calculateSub } from '../../helpers/getDates';
+import { isWeekend, calculateHours, calculateSub } from '../../helpers/getDates';
 
 const DayCard = ({day}) => {
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
@@ -28,7 +28,7 @@ const DayCard = ({day}) => {
             <div onClick={() => handleOpenDialog()} className={`grid grid-cols-4 border border-slate-400 mx-1 mt-1 p-1 rounded-lg ${day.weekend ? 'bg-neutral-200' : 'bg-green-100'} cursor-pointer md:max-w-4xl md:m-auto md:mt-2`}>
                 {/* DATE */}
                 <div className='col-span-1 m-auto text-center'>
-                    <p className='text-lg'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                    <p className='text-lg text-black'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
                 </div>
 
                 <div className='col-span-3 p-1 border-l-2 ml-1'>
@@ -36,30 +36,30 @@ const DayCard = ({day}) => {
                     <div className='flex justify-between'>
                         <div className=''>
                             {start !== end &&
-                                <p>{start} - {end}</p>
+                                <p className='text-black'>{start} - {end}</p>
                             }
                             {start === end &&
-                                <p>Click to add hours</p>
+                                <p className='text-black'>Click to add hours</p>
                             }           
                         </div>
                         <div className=''>
-                            <p>{hours.regHours} Reg | {hours.otHours} OT</p>
+                            <p className='text-black'>{hours.regHours} Reg | {hours.otHours} OT</p>
                         </div>
                     </div>
 
                     {/* SUB */}
                     <div className='flex justify-between'>
                         <div className=''>
-                            <p>{day.sub === '' ? 'Click to add sub' : day.sub}</p>
+                            <p className='text-black'>{day.sub === '' ? 'Click to add sub' : day.sub}</p>
                         </div>
                         <div className=''>
-                            <p>${subAmount}</p>
+                            <p className='text-black'>${subAmount}</p>
                         </div>
                     </div>
 
                     {/* DAILY NOTES */}
                     <div className='border-t-2 border-black mt-1'>
-                        <p>{day.dailyNotes === '' ? 'Click to add Daily Notes' : day.dailyNotes}</p>
+                        <p className='text-black'>{day.dailyNotes === '' ? 'Click to add Daily Notes' : day.dailyNotes}</p>
                     </div>
                 </div>
             </div>

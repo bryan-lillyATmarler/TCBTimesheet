@@ -64,11 +64,11 @@ const Header = () => {
                 {/* NAME */}
                 <div onClick={() => handleOpenHeader()} className='border-b-2 p-1 grid grid-cols-3 cursor-pointer'>
                     <div className='col-span-1 flex justify-start'>
-                        <BiMenu size={35} className='my-auto' />
+                        <BiMenu size={35} className='my-auto text-black' />
                     </div>
                     <div className=' col-span-1'>
-                        <p className='text-center md:text-lg'>{userName}</p>
-                        <p className='text-lg text-center md:text-2xl'>Timesheet</p>
+                        <p className='text-center text-black md:text-lg'>{userName}</p>
+                        <p className='text-lg text-black text-center md:text-2xl'>Timesheet</p>
                         {/* <p className='text-center text-xs'>{`(Click)`}</p> */}
                     </div>
                     {/* LOGO */}
@@ -78,11 +78,11 @@ const Header = () => {
                     {!openHeader &&
                         <>
                             <div className='col-span-3 border-t-2'>
-                                <p className='text-center'>{cycleStartDate} - {cycleEndDate}</p>
+                                <p className='text-center text-black'>{cycleStartDate} - {cycleEndDate}</p>
                             </div>
                             {userData.submitted &&
                                 <div className='col-span-3'>
-                                    <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
+                                    <p className='text-center text-black bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
                                 </div>
 
                             }
@@ -97,25 +97,25 @@ const Header = () => {
                             <div className='md:col-span-2 md:px-5'>
                                 <div className=''>
                                     <div className='flex justify-between'>
-                                        <p>Start of pay cycle</p>
-                                        <p>{cycleStartDate}</p>
+                                        <p className='text-black'>Start of pay cycle</p>
+                                        <p className='text-black'>{cycleStartDate}</p>
                                     </div>
                                 </div>
 
                                 {/* END OF PAY CYCLE */}
                                 <div className=''>
                                     <div className='flex justify-between'>
-                                        <p>End of pay cycle</p>
-                                        <p>{cycleEndDate}</p>
+                                        <p className='text-black'>End of pay cycle</p>
+                                        <p className='text-black'>{cycleEndDate}</p>
                                     </div>
                                 </div>
 
                                 {/* TOTAL HOURS */}
                                 <div className=''>
                                     <div className='flex justify-between'>
-                                        <p>Total Hours</p>
+                                        <p className='text-black'>Total Hours</p>
                                         <div>
-                                            <p>{totalHours.reg} Reg | {totalHours.ot} OT</p>
+                                            <p className='text-black'>{totalHours.reg} Reg | {totalHours.ot} OT</p>
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +123,8 @@ const Header = () => {
                                 {/* TOTAL SUBS */}
                                 <div className=''>
                                     <div className='flex justify-between'>
-                                        <p>Total Sub Amount</p>
-                                        <p>${totalSub}</p>
+                                        <p className='text-black'>Total Sub Amount</p>
+                                        <p className='text-black'>${totalSub}</p>
                                     </div>
                                 </div>
                             </div>
@@ -132,14 +132,14 @@ const Header = () => {
                             <div className='md:col-span-2 md:border-l-2 border border-black mt-3'>
                                 {/* EXTRA NOTES */}
                                 <div className='border-t-2 md:border-none'>
-                                    <p className='text-center border-b-2'>Extra Notes {`(Click here to add/edit Extra Notes)`}</p>
-                                    <p className='p-2'>{userData.extraNotes}</p>
+                                    <p className='text-center border-b-2 text-black'>Extra Notes {`(Click here to add/edit Extra Notes)`}</p>
+                                    <p className='p-2 text-black'>{userData.extraNotes}</p>
                                 </div>
                             </div>
                         </div>
                         {userData.submitted &&
                             <div className='md:col-span-4'>
-                                <p className='text-center bg-red-200 mt-2'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
+                                <p className='text-center bg-red-200 mt-2 text-black'>This timesheet was submitted on {`${getDateFormat(userData.submittedOn)}`}</p>
                             </div>
 
                         }
@@ -151,23 +151,23 @@ const Header = () => {
                             
                             <div className='mt-5 flex md:col-span-1 md:m-0'>
                                 <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
-                                    <button className='font-bold'>Submit Timesheet</button>
+                                    <button className='font-bold text-black'>Submit Timesheet</button>
                                 </div>
 
                             </div>
 
                             <div className='mt-1 flex border-t-2 pt-1 md:col-span-1 md:m-0 md:border-none md:p-0'>
                                 <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
-                                    <button>Start New Timesheet</button>
+                                    <button className='text-black'>Start New Timesheet</button>
                                 </div>
                             </div>
                             
                             <div className='flex justify-around mt-1 border-t-2 pt-1 mb-1 md:m-0 md:col-span-2 md:border-none md:p-0 md:justify-around'>
                                 <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
-                                    <button>View Previous Timesheet</button>
+                                    <button className='text-black'>View Previous Timesheet</button>
                                 </div>
                                 <div onClick={() => handleClearTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
-                                    <button>Clear Timesheet</button>
+                                    <button className='text-black'>Clear Timesheet</button>
                                 </div>
                             </div>
                         </div>

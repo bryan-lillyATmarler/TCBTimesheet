@@ -33,6 +33,7 @@ const Timesheet = () => {
 
     const fetchUserData = async() => {
         setIsFetching(true);
+        setUserData('');
         let response = await getLatestTimesheetAPI(userName);
 
         if(response.success){
@@ -50,6 +51,9 @@ const Timesheet = () => {
         } else {
             setIsFetching(false);
             setSuccess('fail');
+            setTimeout(() => {
+                setUserData('Empty');
+            }, 2000);
         }
 
         setTimeout(() => {
@@ -82,13 +86,13 @@ const Timesheet = () => {
                 {userData === 'Empty' &&
                     <div className='h-screen flex'>
                         <div className='m-auto grid grid-cols-1'>
-                            <div onClick={() => handleLoadLatestTimesheet()} className='mx-auto mt-5 h-10 cursor-pointer bg-green-100 border border-black rounded-md p-3'>
+                            <div onClick={() => handleLoadLatestTimesheet()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-green-100 border border-black rounded-md p-3'>
                                 <button>Load Last Timesheet</button>
                             </div>
-                            <div onClick={() => toggleNewTimesheetHideDialog()} className='mx-auto mt-5 h-10 cursor-pointer bg-yellow-100 border border-black rounded-md p-3'>
+                            <div onClick={() => toggleNewTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-yellow-100 border border-black rounded-md p-3'>
                                 <button>Start New Timesheet</button>
                             </div>
-                            <div onClick={() => togglePreviousTimesheetHideDialog()} className='mx-auto mt-5 h-10 cursor-pointer bg-blue-100 border border-black rounded-md p-3'>
+                            <div onClick={() => togglePreviousTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-blue-100 border border-black rounded-md p-3'>
                                 <button>View Previous Timesheet</button>
                             </div>
                         </div>

@@ -1,0 +1,39 @@
+{
+    "solution": {
+        "provisionSucceeded": true,
+        "teamsAppTenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "subscriptionId": "add5c8a3-3053-4799-8748-123aee274c6f",
+        "subscriptionName": "Azure subscription 1",
+        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "needCreateResourceGroup": false,
+        "resourceGroupName": "tcb_test",
+        "location": "eastus",
+        "resourceNameSuffix": "2ee78d"
+    },
+    "fx-resource-appstudio": {
+        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "teamsAppId": "b1ebf2eb-1083-4af5-a833-b81e1fe55f81"
+    },
+    "fx-resource-frontend-hosting": {
+        "indexPath": "/index.html#",
+        "domain": "timesheet6b367dtab.z13.web.core.windows.net",
+        "endpoint": "https://timesheet6b367dtab.z13.web.core.windows.net",
+        "storageResourceId": "/subscriptions/add5c8a3-3053-4799-8748-123aee274c6f/resourceGroups/tcb_test/providers/Microsoft.Storage/storageAccounts/timesheet6b367dtab"
+    },
+    "fx-resource-aad-app-for-teams": {
+        "clientId": "e5a90469-294d-4c22-a3fc-22466ddb7c88",
+        "clientSecret": "{{fx-resource-aad-app-for-teams.clientSecret}}",
+        "objectId": "8cf43d54-924b-40de-81f6-f5f54be84bbe",
+        "oauth2PermissionScopeId": "039ad358-8995-47a4-9845-63a28bc7910f",
+        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "oauthHost": "https://login.microsoftonline.com",
+        "oauthAuthority": "https://login.microsoftonline.com/26840c0d-5934-490d-8633-b1f52240595d",
+        "applicationIdUris": "api://timesheet6b367dtab.z13.web.core.windows.net/e5a90469-294d-4c22-a3fc-22466ddb7c88",
+        "frontendEndpoint": "https://timesheet6b367dtab.z13.web.core.windows.net"
+    },
+    "fx-resource-identity": {
+        "identityName": "timesheet6b367d",
+        "identityResourceId": "/subscriptions/add5c8a3-3053-4799-8748-123aee274c6f/resourceGroups/tcb_test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/timesheet6b367d",
+        "identityClientId": "57f98847-437e-4ec0-849f-1bbabbb295d1"
+    }
+}
