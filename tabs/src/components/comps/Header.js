@@ -180,7 +180,7 @@ const Header = () => {
             <PreviousTimesheetDialog hideDialog={previousTimesheetHideDialog} toggleHideDialog={togglePreviousTimesheetHideDialog} />
             <SubmitTimesheetDialog hideDialog={submitTimesheetHideDialog} toggleHideDialog={toggleSubmitTimesheetHideDialog} />
             <ClearTimesheetDialog hideDialog={clearTimesheetHideDialog} toggleHideDialog={toggleClearTimesheetHideDialog} />
-            <SubmittedDialog hideDialog={alreadySubmittedHideDialog} toggleHideDialog={toggleAlreadySubmittedHideDialog} />
+            <SubmittedDialog hideDialog={alreadySubmittedHideDialog} toggleHideDialog={toggleAlreadySubmittedHideDialog} toggleSubmitDialog={toggleSubmitTimesheetHideDialog} />
         </>
     )
 }

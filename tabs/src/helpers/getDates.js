@@ -35,6 +35,20 @@ export const isWeekend = (date) => {
     return false;
 }
 
+export const isHoliday = (date) => {
+    let holidays = getHolidays(); 
+
+    let value = false;
+
+    holidays.map((holiday) => {
+        if(new Date(holiday).toDateString() === new Date(date).toDateString()){
+            value = true;
+        }
+    });
+
+    return value;
+}
+
 export const twentyFourHourFormat = (date) => {
     const time = new Intl.DateTimeFormat('default', {
         hour: '2-digit',
@@ -60,7 +74,13 @@ export const calculateHours = (startTime, endTime, date) => {
     let regHours;
     let otHours;
 
-    if(totalHours > 8){
+    if(isWeekend(date)){
+        regHours = 0;
+        otHours = totalHours;
+    }else if(isHoliday(date)){
+        regHours = 0;
+        otHours = totalHours;
+    }else if(totalHours > 8){
         regHours = 8;
         otHours = totalHours - 8;
     } else {
@@ -198,5 +218,21 @@ export const dropdownTimes = () => {
         {key: '22:30', text: '22:30'},
         {key: '23:00', text: '23:00'},
         {key: '23:30', text: '23:30'},
+    ]
+}
+
+export const getHolidays = () => {
+    return [
+        '12/25/2023',
+        '12/26/2023',
+        '1/1/2023',
+        '2/20/2023',
+        '4/7/2023',
+        '5/22/2023',
+        '7/1/2023',
+        '8/7/2023',
+        '9/4/2023',
+        '10/9/2023',
+        '11/13/2023'
     ]
 }

@@ -1,6 +1,6 @@
 const fetchAPI = async(route, options) => {
-    const url = 'https://tcbapi.azurewebsites.net/api/v1';
-    // const url = 'http://localhost:5000/api/v1';
+    // const url = 'https://tcbapi.azurewebsites.net/api/v1';
+    const url = 'http://localhost:5000/api/v1';
 
     let response;
 

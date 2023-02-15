@@ -1,7 +1,7 @@
 import React from 'react'
 import { useBoolean } from '@fluentui/react-hooks';
 import DayDialog from './DayDialog';
-import { isWeekend, calculateHours, calculateSub } from '../../helpers/getDates';
+import { isWeekend, calculateHours, calculateSub, isHoliday } from '../../helpers/getDates';
 
 const DayCard = ({day}) => {
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
@@ -12,6 +12,7 @@ const DayCard = ({day}) => {
 
     //is the day a weekend
     day.weekend = isWeekend(day.date);
+    day.holiday = isHoliday(day.date);
 
     //start and end times for hours
     const start = day.startTime;
@@ -23,15 +24,16 @@ const DayCard = ({day}) => {
     //calculate sub amount
     let subAmount = calculateSub(day.sub);
 
-    return (
+    return ( 
         <>
-            <div onClick={() => handleOpenDialog()} className={`grid grid-cols-4 border border-slate-400 mx-1 mt-1 p-1 rounded-lg ${day.weekend ? 'bg-neutral-200' : 'bg-green-100'} cursor-pointer md:max-w-4xl md:m-auto md:mt-2`}>
+            <div onClick={() => handleOpenDialog()} className={`grid grid-cols-8 md:grid-cols-4 border border-slate-400 mx-1 mt-1 p-1 rounded-lg ${(day.weekend) ? 'bg-neutral-200' : day.holiday ? 'bg-red-200' : 'bg-green-100'} cursor-pointer md:max-w-4xl md:m-auto md:mt-2`}>
                 {/* DATE */}
-                <div className='col-span-1 m-auto text-center'>
-                    <p className='text-lg text-black'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                <div className='col-span-3 md:col-span-1 m-auto text-center'>
+                    <p className='md:text-lg text-black'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                    <p className='text-black'>{day.holiday ? '(Holiday)' : ''}</p>
                 </div>
 
-                <div className='col-span-3 p-1 border-l-2 ml-1'>
+                <div className='col-span-5 md:col-span-3 p-1 border-l-2 ml-1'>
                     {/* HOURS */}
                     <div className='flex justify-between'>
                         <div className=''>
@@ -50,7 +52,7 @@ const DayCard = ({day}) => {
                     {/* SUB */}
                     <div className='flex justify-between'>
                         <div className=''>
-                            <p className='text-black'>{day.sub === '' ? 'Click to add sub' : day.sub}</p>
+                            <p className='text-black'>{day.sub === '' ? '' : day.sub}</p>
                         </div>
                         <div className=''>
                             <p className='text-black'>${subAmount}</p>
@@ -59,7 +61,7 @@ const DayCard = ({day}) => {
 
                     {/* DAILY NOTES */}
                     <div className='border-t-2 border-black mt-1'>
-                        <p className='text-black'>{day.dailyNotes === '' ? 'Click to add Daily Notes' : day.dailyNotes}</p>
+                        <p className='text-black'>{day.dailyNotes === '' ? '' : day.dailyNotes}</p>
                     </div>
                 </div>
             </div>

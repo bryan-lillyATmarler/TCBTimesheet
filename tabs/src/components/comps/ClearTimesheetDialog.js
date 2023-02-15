@@ -51,11 +51,11 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
         dialogContentProps={dialogContentProps}
         modalProps={modelProps}
     >
-          {!userData.submitted &&
+          {/* {!userData.submitted && */}
               <>
                   <div>
                       <p className='font-bold text-center'>Are you sure you want to clear your timesheet info?</p>
-                      <p className='mt-4 text-center'>This will reset all times to 07:00 - 17:00, remove subs and remove any any notes that you have added</p>
+                      <p className='mt-4 text-center'>This will reset all the hours, remove subs and remove any any notes that you have added</p>
                   </div>
 
                   <div className='mt-4 h-4'>
@@ -75,21 +75,6 @@ const ClearTimesheetDialog = ({hideDialog, toggleHideDialog}) => {
                       <DialogButton disable={isFetching} btnText='Cancel' classes='bg-yellow-200' onClick={() => toggleHideDialog()} />
                   </div>
               </>
-          }
-          {userData.submitted &&
-              <>
-                  <div>
-                      <p className='text-lg font-bold text-center mb-4'>Cannot Clear</p>
-                      <p className='text-center'>Timesheet has already been submitted</p>
-                  </div>
-
-                  <div className='flex mt-5'>
-                      <div onClick={() => toggleHideDialog()} className='m-auto border border-black py-3 px-4 rounded-md cursor-pointer bg-blue-100'>
-                          <button>Okay</button>
-                      </div>
-                  </div>
-              </>
-          }
         
     </Dialog>
   )

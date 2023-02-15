@@ -3,7 +3,7 @@ import { userContext } from '../Context';
 import { Dialog, DialogType } from '@fluentui/react/lib/Dialog';
 import DialogButton from './DialogButton';
 import { Dropdown, TextField } from '@fluentui/react';
-import { dropdownSubTypes, dropdownTimes, twentyFourHourFormat } from '../../helpers/getDates';
+import { dropdownSubTypes, dropdownTimes, isHoliday, isWeekend, twentyFourHourFormat } from '../../helpers/getDates';
 import { updateTimesheetAPI } from '../../api/timesheetAPI';
 
 const modelProps = {
@@ -57,8 +57,21 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
         let [startHour, startMinute] = startTime.split(':').map(Number);
         let [endHour, endMinute] = endTime.split(':').map(Number);
 
-        let start = startHour * 60 + startMinute
-        let end = endHour * 60 + endMinute
+        let start = startHour * 60 + startMinute;
+        let end = endHour * 60 + endMinute;
+
+        //if the day is a weekend all hours are OT
+        if(isWeekend(day.date)){
+            setCalculatedRegular(0);
+            setCalculatedOT((end-start)/60);
+            return;
+        }
+
+        if(isHoliday(day.date)){
+            setCalculatedRegular(0);
+            setCalculatedOT((end-start)/60);
+            return;
+        }
 
         if((end - start) / 60 > 8){
             setCalculatedRegular(8);
@@ -122,103 +135,88 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                 dialogContentProps={dialogContentProps}
                 modalProps={modelProps}
             >
-                {!userData.submitted &&
-                    <>
+
+                <>
+                    <div>
+                        {/* DATE */}
                         <div>
-                            {/* DATE */}
-                            <div>
-                                <p className='text-lg'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
-                            </div>
+                            <p className='text-lg'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>
+                        </div>
 
-                            {/* TIME */}
-                            <div>
-                                <div className='grid grid-cols-2'>
-                                    <Dropdown
-                                        className='mr-1'
-                                        label='Start Time'
-                                        options={timeDropdown}
-                                        defaultSelectedKey={startTime}
-                                        onChange={handleStartTimeChange}
-                                    />
-                                    <Dropdown
-                                        className='ml-1'
-                                        label='End Time'
-                                        options={timeDropdown}
-                                        defaultSelectedKey={endTime}
-                                        onChange={handleEndTimeChange}
-                                    />
-                                </div>
-                                <div className='mt-1'>
-                                    <p className='text-center'>{calculatedRegular} Reg | {calculatedOT} OT</p>
-                                </div>
-                            </div>
-                            {/* SUB TYPE */}
-                            <div className='mt-2'>
-                                <div>
-                                    <Dropdown
-                                        label='Select Sub'
-                                        options={subDropdown}
-                                        defaultSelectedKey={subType}
-                                        onChange={handleSubChange}
-                                    />
-                                </div>
-                                <div className='mt-1'>
-                                    {subType === '' &&
-                                        <p></p>
-                                    }
-                                    {(subType === 'Full Sub' || subType === 'Meal Sub') &&
-                                        <p className='text-center'>{`${subType === 'Full Sub' ? `${subType} ($200)` : `${subType} ($67)`}`}</p>
-                                    }
-                                    {subType === 'Camp Bonus' &&
-                                        <p className='text-center'>{`Camp Bonus ($25)`}</p>
-                                    }
-                                </div>
-                            </div>
-
-                            {/* DAY NOTES */}
-                            <div className='mt-2'>
-                                <TextField
-                                    label='Enter any notes for the day'
-                                    multiline
-                                    onChange={handleDayNotesChange}
-                                    value={dayNotes}
+                        {/* TIME */}
+                        <div>
+                            <div className='grid grid-cols-2'>
+                                <Dropdown
+                                    className='mr-1'
+                                    label='Start Time'
+                                    options={timeDropdown}
+                                    defaultSelectedKey={startTime}
+                                    onChange={handleStartTimeChange}
+                                />
+                                <Dropdown
+                                    className='ml-1'
+                                    label='End Time'
+                                    options={timeDropdown}
+                                    defaultSelectedKey={endTime}
+                                    onChange={handleEndTimeChange}
                                 />
                             </div>
-                        </div>
-
-                        <div className='h-4 mt-4'>
-                            {isFetching &&
-                                <p className='text-center bg-yellow-200'>Updating Day</p>
-                            }
-                            {success === 'success' &&
-                                <p className='text-center bg-green-200'>Success</p>
-                            }
-                            {success === 'fail' &&
-                                <p className='text-center bg-red-200'>Something Went Wrong - Try Again</p>
-                            }
-                        </div>
-
-                        <div className='flex justify-around mt-10'>
-                            <DialogButton disable={isFetching} btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
-                            <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
-                        </div>
-                    </>
-                }
-                {userData.submitted &&
-                    <>
-                        <div>
-                            <p className='text-lg font-bold text-center mb-4'>Cannot Update Day</p>
-                            <p className='text-center'>Timesheet has already been submitted</p>
-                        </div>
-
-                        <div className='flex mt-5'>
-                            <div onClick={() => toggleHideDialog()} className='m-auto border border-black py-3 px-4 rounded-md cursor-pointer bg-blue-100'>
-                                <button>Okay</button>
+                            <div className='mt-1'>
+                                <p className='text-center'>{calculatedRegular} Reg | {calculatedOT} OT</p>
                             </div>
                         </div>
-                    </>
-                }
-                
+                        {/* SUB TYPE */}
+                        <div className='mt-2'>
+                            <div>
+                                <Dropdown
+                                    label='Select Sub'
+                                    options={subDropdown}
+                                    defaultSelectedKey={subType}
+                                    onChange={handleSubChange}
+                                />
+                            </div>
+                            <div className='mt-1'>
+                                {subType === '' &&
+                                    <p></p>
+                                }
+                                {(subType === 'Full Sub' || subType === 'Meal Sub') &&
+                                    <p className='text-center'>{`${subType === 'Full Sub' ? `${subType} ($200)` : `${subType} ($67)`}`}</p>
+                                }
+                                {subType === 'Camp Bonus' &&
+                                    <p className='text-center'>{`Camp Bonus ($25)`}</p>
+                                }
+                            </div>
+                        </div>
+
+                        {/* DAY NOTES */}
+                        <div className='mt-2'>
+                            <TextField
+                                label='Enter any notes for the day'
+                                multiline
+                                onChange={handleDayNotesChange}
+                                value={dayNotes}
+                            />
+                        </div>
+                    </div>
+
+                    <div className='h-4 mt-4'>
+                        {isFetching &&
+                            <p className='text-center bg-yellow-200'>Updating Day</p>
+                        }
+                        {success === 'success' &&
+                            <p className='text-center bg-green-200'>Success</p>
+                        }
+                        {success === 'fail' &&
+                            <p className='text-center bg-red-200'>Something Went Wrong - Try Again</p>
+                        }
+                    </div>
+
+                    <div className='flex justify-around mt-10'>
+                        <DialogButton disable={isFetching} btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
+                        <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
+                    </div>
+                </>
+
             </Dialog>
         </>
     )
