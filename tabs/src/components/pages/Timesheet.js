@@ -4,11 +4,12 @@ import Footer from '../comps/Footer';
 import DayCard from '../comps/DayCard';
 import { userContext, TeamsFxContext } from '../Context';
 import { useData } from "@microsoft/teamsfx-react";
-import { initializeIcons } from '@fluentui/react';
+import { Image, initializeIcons } from '@fluentui/react';
 import { getLatestTimesheetAPI } from '../../api/timesheetAPI';
 import { useBoolean } from '@fluentui/react-hooks';
 import NewTimesheetDialog from '../comps/NewTimesheetDialog';
 import PreviousTimesheetDialog from '../comps/PreviousTimesheetDialog';
+import { GrDocumentTime, GrSchedules, GrAddCircle } from 'react-icons/gr';
 
 
 const Timesheet = () => {
@@ -84,16 +85,25 @@ const Timesheet = () => {
                 }
 
                 {userData === 'Empty' &&
-                    <div className='h-screen flex'>
-                        <div className='m-auto grid grid-cols-1'>
-                            <div onClick={() => handleLoadLatestTimesheet()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-green-100 border border-black rounded-md p-3'>
-                                <button>Load Last Timesheet</button>
+                    <div className='h-screen flex flex-col'>
+                        <div className='mt-4 mx-auto max-w-3xl'>
+                            <Image  src='./TCB_Transparent_Full.png' alt='TCB Locating' />
+                        </div>
+                        <div className='mx-auto mb-10'>
+                            <h1 className='md:text-5xl'>Timesheet</h1>
+                        </div>
+                        <div className='grid grid-cols-1'>
+                            <div onClick={() => handleLoadLatestTimesheet()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-green-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-green-200'>
+                                <GrDocumentTime size={20} className='col-span-1 m-auto' />
+                                <button className='col-span-4 text-lg mr-2 text-black'>Load Last Timesheet</button>
                             </div>
-                            <div onClick={() => toggleNewTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-yellow-100 border border-black rounded-md p-3'>
-                                <button>Start New Timesheet</button>
+                            <div onClick={() => toggleNewTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-yellow-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-yellow-200'>
+                                <GrAddCircle size={20} className='col-span-1 m-auto' /> 
+                                <button className='col-span-4 text-lg mr-2 text-black'>Start New Timesheet</button>
                             </div>
-                            <div onClick={() => togglePreviousTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-blue-100 border border-black rounded-md p-3'>
-                                <button>View Previous Timesheet</button>
+                            <div onClick={() => togglePreviousTimesheetHideDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-blue-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-blue-200'>
+                                <GrSchedules size={20} className='col-span-1 m-auto' /> 
+                                <button className='col-span-4 text-lg mr-2 text-black'>View Previous Timesheet</button>
                             </div>
                         </div>
                     </div>

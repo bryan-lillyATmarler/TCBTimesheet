@@ -20,11 +20,12 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
 
     const [subType, setSubType] = useState(day.sub);
     const [dayNotes, setDayNotes] = useState(day.dailyNotes);
-    const [startTime, setStartTime] = useState(day.startTime)
-    const [endTime, setEndTime] = useState(day.endTime);
+    const [startTime, setStartTime] = useState(day.startTime === '24:00' ? '07:00' : day.startTime)
+    const [endTime, setEndTime] = useState(day.endTime === '24:00' ? '17:00' : day.endTime);
     const [calculatedRegular, setCalculatedRegular] = useState();
     const [calculatedOT, setCalculatedOT] = useState();
     const [isFetching, setIsfetching] = useState(false);
+    const [negativeNums, setNegativeNums] = useState(false);
 
     const [success, setSuccess] = useState('');
 
@@ -54,6 +55,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
     }
 
     const calculateSelectedHours = () => {
+        setNegativeNums(false);
         let [startHour, startMinute] = startTime.split(':').map(Number);
         let [endHour, endMinute] = endTime.split(':').map(Number);
 
@@ -80,25 +82,54 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
             setCalculatedRegular((end - start)/60);
             setCalculatedOT(0);
         }
+
+        if((end - start) < 0){
+            window.alert("Can't have a negative amount hours");
+            setNegativeNums(true);
+            return;
+        }
     }
 
-    const handleUpdateDay = async() => {
+    const handleUpdateDay = async(clear = false) => {
         setIsfetching(true);
-        let start = new Date(day.date);
-        start.setHours(startTime.split(':')[0], startTime.split(':')[1])
+        let start;
+        let end;
+        let sub;
+        let dailyNotes;
+        if(clear){
+            //clear = true then it is clearing the day data
+            if(!window.confirm('Are you sure you want to clear data for this day?')){
+                setIsfetching(false);
+                return;
+            }
+            setSubType('');
+            setDayNotes('');
+            setStartTime('24:00');
+            setEndTime('24:00');
 
-        let end = new Date(day.date);
-        end.setHours(endTime.split(':')[0], endTime.split(':')[1])
-
-        start = twentyFourHourFormat(start);
-        end = twentyFourHourFormat(end);
+            start = '24:00';
+            end = '24:00';
+            sub = '';
+            dailyNotes = '';
+        } else {
+            start = new Date(day.date);
+            start.setHours(startTime.split(':')[0], startTime.split(':')[1])
+        
+            end = new Date(day.date);
+            end.setHours(endTime.split(':')[0], endTime.split(':')[1])
+        
+            start = twentyFourHourFormat(start);
+            end = twentyFourHourFormat(end);
+            sub = subType;
+            dailyNotes = dayNotes;
+        }
 
         let updatedDay = {
             date: day.date,
             startTime: start,
             endTime: end,
-            sub: subType,
-            dailyNotes: dayNotes
+            sub,
+            dailyNotes
         }
 
         let newUserDays = [...userData.days];
@@ -150,14 +181,14 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                                     className='mr-1'
                                     label='Start Time'
                                     options={timeDropdown}
-                                    defaultSelectedKey={startTime}
+                                    defaultSelectedKey={startTime === '24:00' ? '07:00' : startTime}
                                     onChange={handleStartTimeChange}
                                 />
                                 <Dropdown
                                     className='ml-1'
                                     label='End Time'
                                     options={timeDropdown}
-                                    defaultSelectedKey={endTime}
+                                    defaultSelectedKey={endTime === '24:00' ? '17:00' : endTime}
                                     onChange={handleEndTimeChange}
                                 />
                             </div>
@@ -199,7 +230,7 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                         </div>
                     </div>
 
-                    <div className='h-4 mt-4'>
+                    <div className='h-4 mt-2'>
                         {isFetching &&
                             <p className='text-center bg-yellow-200'>Updating Day</p>
                         }
@@ -210,9 +241,12 @@ const DayDialog = ({hideDialog, toggleHideDialog, day}) => {
                             <p className='text-center bg-red-200'>Something Went Wrong - Try Again</p>
                         }
                     </div>
-
+                    <div className='flex justify-around mt-5'>
+                        <DialogButton disable={isFetching} btnText='Clear Day' classes='bg-yellow-100' onClick={() => handleUpdateDay(true)} />
+                    </div>
+                    
                     <div className='flex justify-around mt-10'>
-                        <DialogButton disable={isFetching} btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
+                        <DialogButton disable={isFetching || negativeNums} btnText='Update' classes='bg-blue-100' onClick={() => handleUpdateDay()} />
                         <DialogButton disable={isFetching} btnText='Cancel' classes='bg-red-100' onClick={() => toggleHideDialog()} />
                     </div>
                 </>

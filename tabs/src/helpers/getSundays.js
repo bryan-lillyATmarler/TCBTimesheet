@@ -20,6 +20,9 @@ function getSundays(months) {
             currentYear--;
         }
     }
+
+    sundays.sort((a, b) => new Date(a) - new Date(b));
+
     return sundays;
 }
 

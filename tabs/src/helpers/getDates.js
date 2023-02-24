@@ -168,6 +168,23 @@ export const dropdownSubTypes = () => {
     ]
 }
 
+export const checkFutureHours = (endDate, data) => {
+    let today = new Date();
+    if(endDate <= today){
+        return false;
+    }
+
+    let returnValue = false;
+
+    data.map(day => {
+        if(new Date(day.date) > today && (calculateHours(day.startTime, day.endTime, day.date).regHours > 0 || calculateHours(day.startTime, day.endTime, day.date).otHours > 0)){
+            returnValue = true;
+        }
+    });
+
+    return returnValue;
+}
+
 export const dropdownTimes = () => {
     return [
         {key: '00:00', text: '00:00'},

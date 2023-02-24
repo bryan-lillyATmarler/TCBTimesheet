@@ -10,6 +10,7 @@ import SubmitTimesheetDialog from './SubmitTimesheetDialog';
 import ClearTimesheetDialog from './ClearTimesheetDialog';
 import SubmittedDialog from './SubmittedDialog';
 import { BiMenu } from "react-icons/bi";
+import { GrSchedules, GrAddCircle, GrSend, GrCircleAlert } from 'react-icons/gr';
 
 const Header = () => {
     const { userData, userName } = useContext(userContext);
@@ -144,30 +145,31 @@ const Header = () => {
 
                         }
 
-                        
-
-                        
                         <div className='md:col-span-4 md:grid md:grid-cols-4 md:pt-4 md:pb-4'>
                             
-                            <div className='mt-5 flex md:col-span-1 md:m-0'>
-                                <div onClick={() => handleSubmitTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg py-3 px-5 bg-blue-200'>
-                                    <button className='font-bold text-black'>Submit Timesheet</button>
+                            <div className='mt-5 flex md:col-span-2 md:m-auto '>
+                                <div onClick={() => handleSubmitTimesheetDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-green-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-green-200'>
+                                    <GrSend size={20} className='col-span-1 m-auto' />
+                                    <button className='col-span-4 text-lg mr-2 text-black'>Submit Timesheet</button>
                                 </div>
 
                             </div>
 
-                            <div className='mt-1 flex border-t-2 pt-1 md:col-span-1 md:m-0 md:border-none md:p-0'>
-                                <div onClick={() => handleOpenNewTimesheetDialog()} className='cursor-pointer m-auto border border-black rounded-lg p-3 bg-green-200'>
-                                    <button className='text-black'>Start New Timesheet</button>
+                            <div className='mt-1 flex pt-1 md:col-span-2 md:m-0 md:border-none md:p-0'>
+                                <div onClick={() => handleOpenNewTimesheetDialog()} className='text-black mx-auto mt-5 h-10 cursor-pointer bg-yellow-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-yellow-200'>
+                                    <GrAddCircle size={20} className='col-span-1 m-auto' />
+                                    <button className='col-span-4 text-lg mr-2 text-black'>Start New Timesheet</button>
                                 </div>
                             </div>
                             
-                            <div className='flex justify-around mt-1 border-t-2 pt-1 mb-1 md:m-0 md:col-span-2 md:border-none md:p-0 md:justify-around'>
-                                <div onClick={() => handlePreviousTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-yellow-200'>
-                                    <button className='text-black'>View Previous Timesheet</button>
+                            <div className='flex justify-around mt-1 pt-1 mb-1 md:m-0 md:mt-5 md:col-span-4 md:border-none md:p-0 md:justify-evenly md:grid md:grid-cols-4'>
+                                <div onClick={() => handlePreviousTimesheetDialog()} className='md:col-span-2 md:m-auto text-black mt-5 h-10 cursor-pointer bg-blue-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-blue-200'>
+                                    <GrSchedules size={20} className='col-span-1 m-auto' />
+                                    <button className='col-span-4 text-lg mr-2 text-black'>View Previous Timesheet</button>
                                 </div>
-                                <div onClick={() => handleClearTimesheetDialog()} className='cursor-pointer border border-black rounded-lg p-3 bg-red-200'>
-                                    <button className='text-black'>Clear Timesheet</button>
+                                <div onClick={() => handleClearTimesheetDialog()} className='md:col-span-2 md:m-auto text-black mt-5 h-10 cursor-pointer bg-red-100 border border-black rounded-lg grid grid-cols-5 shadow-lg hover:shadow-2xl hover:bg-red-200'>
+                                    <GrCircleAlert size={20} className='col-span-1 m-auto' />
+                                    <button className='col-span-4 text-lg mr-2 text-black'>Clear Timesheet</button>
                                 </div>
                             </div>
                         </div>
