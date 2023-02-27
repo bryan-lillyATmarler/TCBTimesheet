@@ -26,7 +26,7 @@ const DayCard = ({day}) => {
 
     return ( 
         <>
-            <div onClick={() => handleOpenDialog()} className={`grid grid-cols-8 md:grid-cols-4 border border-slate-400 mx-1 mt-1 p-1 rounded-lg ${(day.weekend) ? 'bg-neutral-200' : day.holiday ? 'bg-red-200' : 'bg-green-100'} cursor-pointer md:max-w-4xl md:m-auto md:mt-2`}>
+            <div onClick={() => handleOpenDialog()} className={`grid grid-cols-8 md:grid-cols-4 border border-slate-400 mx-1 mt-1 p-1 rounded-lg ${(day.holiday) ? 'bg-red-200' : day.weekend ? 'bg-neutral-200' : 'bg-green-100'} cursor-pointer md:max-w-4xl md:m-auto md:mt-2`}>
                 {/* DATE */}
                 <div className='col-span-3 md:col-span-1 m-auto text-center'>
                     <p className='md:text-lg text-black'>{new Date(day.date).toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</p>

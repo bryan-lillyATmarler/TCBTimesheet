@@ -22,7 +22,7 @@
     },
     "fx-resource-aad-app-for-teams": {
         "clientId": "e5a90469-294d-4c22-a3fc-22466ddb7c88",
-        "clientSecret": "{{fx-resource-aad-app-for-teams.clientSecret}}",
+        "clientSecret": "",
         "objectId": "8cf43d54-924b-40de-81f6-f5f54be84bbe",
         "oauth2PermissionScopeId": "039ad358-8995-47a4-9845-63a28bc7910f",
         "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
