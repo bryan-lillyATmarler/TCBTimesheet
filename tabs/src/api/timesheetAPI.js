@@ -1,8 +1,11 @@
 const fetchAPI = async(route, options) => {
-    const url = 'https://tcbapi.azurewebsites.net/api/v1';
+    // const url = 'https://tcbapi.azurewebsites.net/api/v1';
     // const url = 'http://localhost:5000/api/v1';
+    const url = 'https://tcb-api.azurewebsites.net/api/v1'
 
     let response;
+
+    // options.headers = {'mode' : 'no-cors'}
 
     await fetch(`${url}${route}`, options)
         .then(res => res.json())
@@ -25,7 +28,6 @@ export const getTimesheetAPI = async(timesheetID) => {
 
 export const createTimesheetAPI = async(body) => {
     let route = '/timesheets';
-
     let options = {
         method: 'POST',
         headers: {
