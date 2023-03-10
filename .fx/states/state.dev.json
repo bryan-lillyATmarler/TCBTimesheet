@@ -1,39 +1,39 @@
 {
     "solution": {
         "provisionSucceeded": true,
-        "teamsAppTenantId": "26840c0d-5934-490d-8633-b1f52240595d",
-        "subscriptionId": "add5c8a3-3053-4799-8748-123aee274c6f",
+        "teamsAppTenantId": "dfc56696-032b-411f-98aa-f041d0479c54",
+        "subscriptionId": "1f3d20c9-b178-4343-8d92-de549e91126d",
         "subscriptionName": "Azure subscription 1",
-        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "tenantId": "dfc56696-032b-411f-98aa-f041d0479c54",
         "needCreateResourceGroup": false,
-        "resourceGroupName": "tcb_test",
+        "resourceGroupName": "tcb-timesheet",
         "location": "eastus",
-        "resourceNameSuffix": "2ee78d"
+        "resourceNameSuffix": "400260"
     },
     "fx-resource-appstudio": {
-        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
-        "teamsAppId": "b1ebf2eb-1083-4af5-a833-b81e1fe55f81"
+        "tenantId": "dfc56696-032b-411f-98aa-f041d0479c54",
+        "teamsAppId": "9ab665de-7a44-4c53-9bd0-503d02319bff"
     },
     "fx-resource-frontend-hosting": {
         "indexPath": "/index.html#",
-        "domain": "timesheet6b367dtab.z13.web.core.windows.net",
-        "endpoint": "https://timesheet6b367dtab.z13.web.core.windows.net",
-        "storageResourceId": "/subscriptions/add5c8a3-3053-4799-8748-123aee274c6f/resourceGroups/tcb_test/providers/Microsoft.Storage/storageAccounts/timesheet6b367dtab"
+        "domain": "timesheet6b367etab.z13.web.core.windows.net",
+        "endpoint": "https://timesheet6b367etab.z13.web.core.windows.net",
+        "storageResourceId": "/subscriptions/1f3d20c9-b178-4343-8d92-de549e91126d/resourceGroups/tcb-timesheet/providers/Microsoft.Storage/storageAccounts/timesheet6b367etab"
     },
     "fx-resource-aad-app-for-teams": {
-        "clientId": "e5a90469-294d-4c22-a3fc-22466ddb7c88",
-        "clientSecret": "",
-        "objectId": "8cf43d54-924b-40de-81f6-f5f54be84bbe",
-        "oauth2PermissionScopeId": "039ad358-8995-47a4-9845-63a28bc7910f",
-        "tenantId": "26840c0d-5934-490d-8633-b1f52240595d",
+        "clientId": "2f265b2e-8104-4527-892a-5eedd79859aa",
+        "clientSecret": "{{fx-resource-aad-app-for-teams.clientSecret}}",
+        "objectId": "346e34bc-c046-492b-a280-80d9062834e7",
+        "oauth2PermissionScopeId": "9417f757-3ec2-444b-be76-f7ac37bf7996",
+        "tenantId": "dfc56696-032b-411f-98aa-f041d0479c54",
         "oauthHost": "https://login.microsoftonline.com",
-        "oauthAuthority": "https://login.microsoftonline.com/26840c0d-5934-490d-8633-b1f52240595d",
-        "applicationIdUris": "api://timesheet6b367dtab.z13.web.core.windows.net/e5a90469-294d-4c22-a3fc-22466ddb7c88",
-        "frontendEndpoint": "https://timesheet6b367dtab.z13.web.core.windows.net"
+        "oauthAuthority": "https://login.microsoftonline.com/dfc56696-032b-411f-98aa-f041d0479c54",
+        "applicationIdUris": "api://timesheet6b367etab.z13.web.core.windows.net/2f265b2e-8104-4527-892a-5eedd79859aa",
+        "frontendEndpoint": "https://timesheet6b367etab.z13.web.core.windows.net"
     },
     "fx-resource-identity": {
-        "identityName": "timesheet6b367d",
-        "identityResourceId": "/subscriptions/add5c8a3-3053-4799-8748-123aee274c6f/resourceGroups/tcb_test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/timesheet6b367d",
-        "identityClientId": "57f98847-437e-4ec0-849f-1bbabbb295d1"
+        "identityName": "timesheet6b367e",
+        "identityResourceId": "/subscriptions/1f3d20c9-b178-4343-8d92-de549e91126d/resourceGroups/tcb-timesheet/providers/Microsoft.ManagedIdentity/userAssignedIdentities/timesheet6b367e",
+        "identityClientId": "f0fb4143-6e70-4690-ab55-c14af4fc0c38"
     }
 }

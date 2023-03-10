@@ -1,12 +1,12 @@
 {
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.schema.json",
     "manifestVersion": "1.14",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "id": "{{state.fx-resource-appstudio.teamsAppId}}",
     "packageName": "com.microsoft.teams.extension",
     "developer": {
         "name": "TCB Locating - Bryan Lilly",
-        "websiteUrl": "https://www.example.com",
+        "websiteUrl": "https://www.tcblocating.ca",
         "privacyUrl": "https://www.example.com/termofuse",
         "termsOfUseUrl": "https://www.example.com/privacy"
     },
